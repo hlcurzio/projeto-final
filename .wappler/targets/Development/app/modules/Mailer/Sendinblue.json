@@ -1,0 +1,11 @@
+{
+  "name": "Sendinblue",
+  "module": "mail",
+  "action": "setup",
+  "options": {
+    "host": "smtp-relay.sendinblue.com",
+    "port": 587,
+    "username": "hlcurziotcc@gmail.com",
+    "password": "Ymr6DH5XqzPA9bs0"
+  }
+}

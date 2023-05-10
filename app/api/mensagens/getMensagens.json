@@ -1,0 +1,161 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ]
+  },
+  "exec": {
+    "steps": [
+      {
+        "name": "",
+        "module": "auth",
+        "action": "restrict",
+        "options": {
+          "provider": "security",
+          "loginUrl": "/entrar",
+          "forbiddenUrl": "/"
+        }
+      },
+      {
+        "name": "queryMensagens",
+        "module": "dbconnector",
+        "action": "select",
+        "options": {
+          "connection": "mydb",
+          "sql": {
+            "type": "select",
+            "columns": [
+              {
+                "table": "mensagens",
+                "column": "*"
+              },
+              {
+                "table": "destinatario",
+                "column": "*"
+              },
+              {
+                "table": "rementente",
+                "column": "*"
+              }
+            ],
+            "params": [],
+            "table": {
+              "name": "mensagens"
+            },
+            "primary": "id",
+            "joins": [
+              {
+                "table": "users",
+                "column": "*",
+                "alias": "destinatario",
+                "type": "INNER",
+                "clauses": {
+                  "condition": "AND",
+                  "rules": [
+                    {
+                      "table": "destinatario",
+                      "column": "userID",
+                      "operator": "equal",
+                      "operation": "=",
+                      "value": {
+                        "table": "mensagens",
+                        "column": "destinatarioID"
+                      }
+                    }
+                  ]
+                },
+                "primary": "userID"
+              },
+              {
+                "table": "users",
+                "column": "*",
+                "alias": "rementente",
+                "type": "INNER",
+                "clauses": {
+                  "condition": "AND",
+                  "rules": [
+                    {
+                      "table": "rementente",
+                      "column": "userID",
+                      "operator": "equal",
+                      "operation": "=",
+                      "value": {
+                        "table": "mensagens",
+                        "column": "remetenteID"
+                      }
+                    }
+                  ]
+                },
+                "primary": "userID"
+              }
+            ],
+            "query": "select `mensagens`.*, `destinatario`.*, `rementente`.* from `mensagens` inner join `users` as `destinatario` on `destinatario`.`userID` = `mensagens`.`destinatarioID` inner join `users` as `rementente` on `rementente`.`userID` = `mensagens`.`remetenteID` order by `mensagens`.`dataHora` ASC",
+            "orders": [
+              {
+                "table": "mensagens",
+                "column": "dataHora",
+                "direction": "ASC"
+              }
+            ]
+          }
+        },
+        "output": true,
+        "meta": [
+          {
+            "type": "number",
+            "name": "id"
+          },
+          {
+            "type": "text",
+            "name": "conteudo"
+          },
+          {
+            "type": "number",
+            "name": "remetenteID"
+          },
+          {
+            "type": "number",
+            "name": "destinatarioID"
+          },
+          {
+            "type": "datetime",
+            "name": "dataHora"
+          },
+          {
+            "type": "number",
+            "name": "userID"
+          },
+          {
+            "type": "text",
+            "name": "firstname"
+          },
+          {
+            "type": "text",
+            "name": "lastname"
+          },
+          {
+            "type": "text",
+            "name": "email"
+          },
+          {
+            "type": "text",
+            "name": "password"
+          },
+          {
+            "type": "boolean",
+            "sub": [],
+            "name": "admin"
+          }
+        ],
+        "outputType": "array"
+      }
+    ]
+  }
+}

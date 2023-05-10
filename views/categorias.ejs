@@ -1,0 +1,118 @@
+<!-- Wappler include head-page="layouts/main" fontawesome_5="cdn" bootstrap5="local" is="dmx-app" id="ferramentas" appConnect="local" components="{dmxBootstrap5TableGenerator:{},dmxBootstrap5Collapse:{},dmxBootstrap5Modal:{},dmxTagify:{},dmxDataTraversal:{},dmxBootstrap5Navigation:{},dmxAnimateCSS:{},dmxLightbox:{},dmxBootbox5:{},dmxBootbox:{},dmxSummernote:{},dmxMediumEditor:{},dmxMediumEditorImageUpload:{}}" jquery_slim_35="cdn" -->
+<dmx-serverconnect id="sc_catDeFerramentas_read" url="/api/catDeFerramentas/read"></dmx-serverconnect>
+
+
+<div class="modal" id="modal_adicionar_catDeFerramenta" is="dmx-bs5-modal" tabindex="-1" dmx-on:hide-bs-modal="form_adicionar_ferramenta.reset(true);form_adicionar_ferramenta.smnt_descricao.reset()">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Adicionar nova categoria</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form is="dmx-serverconnect-form" id="form_adicionar_ferramenta" method="post" action="/api/ferramentas/create" dmx-generator="bootstrap5" dmx-form-type="vertical" dmx-on:success="mainNotifications.success('Sucesso!');sc_ferramentas_read.load({});modal_adicionar_ferramenta.hide()">
+
+
+                    <div class="form-group mb-3">
+                        <label for="inp_nome">Nome</label>
+                        <input type="text" class="form-control" id="inp_nome" name="nome" aria-describedby="inp_nome_help" dmxorgdomid="d1987">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="inp_descricao">Descrição</label>
+                        <textarea id="smnt_descricao" name="descricao" is="dmx-summernote" dmx-bind:toolbar="[['style',['style']],['font',['bold','underline','clear']],['fontname',['fontname']],['color',['color']],['para',['ul','ol','paragraph']],['table',['table']],['insert',['link','picture','video']],['view',['fullscreen','codeview','help']]]" lang="pt-BR" min-height="150" dialogs-in-body="true"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary" dmx-on:click="form_adicionar_ferramenta.submit()">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<dmx-data-detail id="data_detail_catDeFerramenta" dmx-bind:data="sc_catDeFerramentas_read.data.query" key="id">
+    <div class="modal" id="modal_detalhar_catDeFerramenta" is="dmx-bs5-modal" tabindex="-1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+
+                <div class="modal-header">
+                    <h5 class="modal-title">{{data_detail_catDeFerramenta.data.nome}}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <table class="table">
+                        <tbody dmx-generator="bs5table" dmx-populate="data_detail_ferramenta.data">
+                            <tr>
+                                <th>Nome</th>
+                                <td dmx-text="data_detail_ferramenta.data.nome"></td>
+                            </tr>
+                            <tr>
+                                <th>Descricao</th>
+                                <td dmx-html="data_detail_ferramenta.data.descricao"></td>
+                            </tr>
+                            <tr>
+                                <th>Link</th>
+                                <td dmx-text="data_detail_ferramenta.data.link"></td>
+                            </tr>
+                            <tr>
+                                <th>Categoria</th>
+                                <td dmx-text="data_detail_ferramenta.data.categoria_nome"></td>
+                            </tr>
+                            <tr>
+                                <th>Criada por</th>
+                                <td dmx-text="data_detail_ferramenta.data.criada_por_nome"></td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button id="btn_editar_ferramenta" class="btn btn-outline-primary" dmx-on:click="modal_detalhar_ferramenta.hide();modal_editar_ferramenta.show()">
+                        <i class="fas fa-edit"></i>
+                        <br></button>
+                    <button id="btn_deletar_ferramenta" class="btn btn-danger" dmx-on:click="run({'bootbox.confirm':{message:'Tem certeza que deseja deletar este item?',buttons:{confirm:{label:'Deletar',className:'btn-danger'},cancel:{label:'Cancelar',className:'btn-secondary'}},title:'Esta ação é irreversível',then:{steps:[{serverConnect:{url:'/api/ferramentas/delete',site:'SIP',params:{id:`data_detail_ferramenta.data.ferramentaID`},name:'sc'}},{run:{action:`mainNotifications.info(\'Item deletado com sucesso!\');modal_detalhar_ferramenta.hide();sc_ferramentas_read.load({})`}}]}}})"><i class="fas fa-trash"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</dmx-data-detail>
+<div class="mt-5 container" style="">
+    <div class="row">
+        <div class="col align-self-center">
+            <div class="d-flex align-items-center flex-wrap justify-content-between">
+
+                <h1 class="fw-light">Categorias</h1>
+                <div class="d-block">
+                    <div class="d-flex">
+                        <button id="btn1" class="btn btn-primary ms-3" data-bs-target="#modal_adicionar_catDeFerramenta" data-bs-toggle="modal">Adicionar</button>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped table-borderless">
+                    <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="sc_catDeFerramentas_read.data.query" id="tableRepeat1">
+                        <tr>
+                            <td dmx-text="nome" dmx-on:click="data_detail_ferramenta.select(ferramentaID);data_detail_ferramenta.modal_detalhar_ferramenta.show()"></td>
+                            <td class="text-end" style="width: 95px;">
+                                <button id="btn2" class="btn btn-sm btn-outline-primary" data-bs-target="#modal_adicionar_ferramenta" dmx-on:click="data_detail_ferramenta.select(ferramentaID);data_detail_ferramenta.modal_editar_ferramenta.show()"><i class="fas fa-edit"></i></button>
+                                <button id="btn3" class="btn btn-sm btn-danger ms-2" data-bs-target="#modal_adicionar_ferramenta" dmx-on:click="run({'bootbox.confirm':{message:'Tem certeza que deseja deletar este item?',title:'Esta ação é irreversível',buttons:{confirm:{label:'Deletar',className:'btn-danger'},cancel:{label:'Cancelar',className:'btn-secondary'}},then:{steps:[{serverConnect:{url:'/api/ferramentas/delete',site:'SIP',params:{id:`ferramentaID`},name:'sc'}},{run:{action:`mainNotifications.info(\'Item deletado com sucesso!\');sc_ferramentas_read.load({})`}}]}}})"><i class="fas fa-trash"></i></button>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<meta name="ac:route" content="/categorias">

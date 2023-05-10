@@ -1,0 +1,8 @@
+{
+  "name": "MailDev",
+  "module": "mail",
+  "action": "setup",
+  "options": {
+    "port": 1025
+  }
+}

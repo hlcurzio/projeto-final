@@ -1,0 +1,36 @@
+{
+  "name": "security",
+  "module": "auth",
+  "action": "provider",
+  "options": {
+    "secret": "1Tz6iQjppO0du0l",
+    "provider": "Database",
+    "connection": "mydb",
+    "users": {
+      "table": "users",
+      "identity": "userID",
+      "username": "email",
+      "password": "password"
+    },
+    "permissions": {
+      "admin": {
+        "table": "users",
+        "identity": "userID",
+        "conditions": [
+          {
+            "column": "admin",
+            "operator": "=",
+            "value": "1"
+          }
+        ]
+      }
+    },
+    "passwordVerify": true
+  },
+  "meta": [
+    {
+      "name": "identity",
+      "type": "text"
+    }
+  ]
+}

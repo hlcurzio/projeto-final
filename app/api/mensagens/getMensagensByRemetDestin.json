@@ -1,0 +1,317 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      },
+      {
+        "type": "text",
+        "name": "destinatarioid"
+      },
+      {
+        "type": "text",
+        "name": "remetenteid"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "queryMensagensByRemetDestin",
+      "module": "dbconnector",
+      "action": "select",
+      "options": {
+        "connection": "mydb",
+        "sql": {
+          "type": "select",
+          "columns": [
+            {
+              "table": "mensagens",
+              "column": "*"
+            },
+            {
+              "table": "destinatario",
+              "column": "firstname",
+              "alias": "destin_firstname"
+            },
+            {
+              "table": "destinatario",
+              "column": "lastname",
+              "alias": "destin_lastname"
+            },
+            {
+              "table": "rementente",
+              "column": "firstname",
+              "alias": "remet_firstname"
+            },
+            {
+              "table": "rementente",
+              "column": "lastname",
+              "alias": "remet_lastname"
+            }
+          ],
+          "params": [
+            {
+              "operator": "equal",
+              "type": "expression",
+              "name": ":P1",
+              "value": "{{$_GET.destinatarioid}}",
+              "test": "8"
+            },
+            {
+              "operator": "equal",
+              "type": "expression",
+              "name": ":P2",
+              "value": "{{$_GET.remetenteid}}",
+              "test": "2"
+            },
+            {
+              "operator": "equal",
+              "type": "expression",
+              "name": ":P3",
+              "value": "{{$_GET.remetenteid}}",
+              "test": "2"
+            },
+            {
+              "operator": "equal",
+              "type": "expression",
+              "name": ":P4",
+              "value": "{{$_GET.destinatarioid}}",
+              "test": "8"
+            }
+          ],
+          "table": {
+            "name": "mensagens"
+          },
+          "primary": "id",
+          "joins": [
+            {
+              "table": "users",
+              "column": "*",
+              "alias": "destinatario",
+              "type": "INNER",
+              "clauses": {
+                "condition": "AND",
+                "rules": [
+                  {
+                    "table": "destinatario",
+                    "column": "userID",
+                    "operator": "equal",
+                    "operation": "=",
+                    "value": {
+                      "table": "mensagens",
+                      "column": "destinatarioID"
+                    }
+                  }
+                ]
+              },
+              "primary": "userID"
+            },
+            {
+              "table": "users",
+              "column": "*",
+              "alias": "rementente",
+              "type": "INNER",
+              "clauses": {
+                "condition": "AND",
+                "rules": [
+                  {
+                    "table": "rementente",
+                    "column": "userID",
+                    "operator": "equal",
+                    "operation": "=",
+                    "value": {
+                      "table": "mensagens",
+                      "column": "remetenteID"
+                    }
+                  }
+                ]
+              },
+              "primary": "userID"
+            }
+          ],
+          "query": "select `mensagens`.*, `destinatario`.`firstname` as `destin_firstname`, `destinatario`.`lastname` as `destin_lastname`, `rementente`.`firstname` as `remet_firstname`, `rementente`.`lastname` as `remet_lastname` from `mensagens` inner join `users` as `destinatario` on `destinatario`.`userID` = `mensagens`.`destinatarioID` inner join `users` as `rementente` on `rementente`.`userID` = `mensagens`.`remetenteID` where (`mensagens`.`destinatarioID` = ? and `mensagens`.`remetenteID` = ?) or (`mensagens`.`destinatarioID` = ? and `mensagens`.`remetenteID` = ?) order by `mensagens`.`dataHora` ASC",
+          "orders": [
+            {
+              "table": "mensagens",
+              "column": "dataHora",
+              "direction": "ASC"
+            }
+          ],
+          "wheres": {
+            "condition": "OR",
+            "rules": [
+              {
+                "condition": "AND",
+                "rules": [
+                  {
+                    "id": "mensagens.destinatarioID",
+                    "field": "mensagens.destinatarioID",
+                    "type": "double",
+                    "operator": "equal",
+                    "value": "{{$_GET.destinatarioid}}",
+                    "data": {
+                      "table": "mensagens",
+                      "column": "destinatarioID",
+                      "type": "number",
+                      "columnObj": {
+                        "type": "reference",
+                        "primary": false,
+                        "unique": false,
+                        "nullable": true,
+                        "references": "userID",
+                        "inTable": "users",
+                        "referenceType": "integer",
+                        "onUpdate": "CASCADE",
+                        "onDelete": "CASCADE",
+                        "name": "destinatarioID"
+                      }
+                    },
+                    "operation": "=",
+                    "table": "mensagens"
+                  },
+                  {
+                    "id": "mensagens.remetenteID",
+                    "field": "mensagens.remetenteID",
+                    "type": "double",
+                    "operator": "equal",
+                    "value": "{{$_GET.remetenteid}}",
+                    "data": {
+                      "table": "mensagens",
+                      "column": "remetenteID",
+                      "type": "number",
+                      "columnObj": {
+                        "type": "reference",
+                        "primary": false,
+                        "unique": false,
+                        "nullable": true,
+                        "references": "userID",
+                        "inTable": "users",
+                        "referenceType": "integer",
+                        "onUpdate": "CASCADE",
+                        "onDelete": "CASCADE",
+                        "name": "remetenteID"
+                      }
+                    },
+                    "operation": "=",
+                    "table": "mensagens"
+                  }
+                ],
+                "conditional": null,
+                "table": "mensagens",
+                "id": "mensagens.undefined"
+              },
+              {
+                "condition": "AND",
+                "rules": [
+                  {
+                    "id": "mensagens.destinatarioID",
+                    "field": "mensagens.destinatarioID",
+                    "type": "double",
+                    "operator": "equal",
+                    "value": "{{$_GET.remetenteid}}",
+                    "data": {
+                      "table": "mensagens",
+                      "column": "destinatarioID",
+                      "type": "number",
+                      "columnObj": {
+                        "type": "reference",
+                        "primary": false,
+                        "unique": false,
+                        "nullable": true,
+                        "references": "userID",
+                        "inTable": "users",
+                        "referenceType": "integer",
+                        "onUpdate": "CASCADE",
+                        "onDelete": "CASCADE",
+                        "name": "destinatarioID"
+                      }
+                    },
+                    "operation": "=",
+                    "table": "mensagens"
+                  },
+                  {
+                    "id": "mensagens.remetenteID",
+                    "field": "mensagens.remetenteID",
+                    "type": "double",
+                    "operator": "equal",
+                    "value": "{{$_GET.destinatarioid}}",
+                    "data": {
+                      "table": "mensagens",
+                      "column": "remetenteID",
+                      "type": "number",
+                      "columnObj": {
+                        "type": "reference",
+                        "primary": false,
+                        "unique": false,
+                        "nullable": true,
+                        "references": "userID",
+                        "inTable": "users",
+                        "referenceType": "integer",
+                        "onUpdate": "CASCADE",
+                        "onDelete": "CASCADE",
+                        "name": "remetenteID"
+                      }
+                    },
+                    "operation": "=",
+                    "table": "mensagens"
+                  }
+                ],
+                "conditional": null,
+                "table": "mensagens",
+                "id": "mensagens.undefined"
+              }
+            ],
+            "conditional": null,
+            "valid": true
+          }
+        }
+      },
+      "output": true,
+      "meta": [
+        {
+          "type": "number",
+          "name": "id"
+        },
+        {
+          "type": "text",
+          "name": "conteudo"
+        },
+        {
+          "type": "number",
+          "name": "remetenteID"
+        },
+        {
+          "type": "number",
+          "name": "destinatarioID"
+        },
+        {
+          "type": "datetime",
+          "name": "dataHora"
+        },
+        {
+          "type": "text",
+          "name": "destin_firstname"
+        },
+        {
+          "type": "text",
+          "name": "destin_lastname"
+        },
+        {
+          "type": "text",
+          "name": "remet_firstname"
+        },
+        {
+          "type": "text",
+          "name": "remet_lastname"
+        }
+      ],
+      "outputType": "array",
+      "type": "dbconnector_select"
+    }
+  }
+}

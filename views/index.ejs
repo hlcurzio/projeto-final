@@ -1,0 +1,31 @@
+<!-- Wappler include head-page="layouts/main" is="dmx-app" id="index" appconnect="local" fontawesome_5="cdn" bootstrap5="local" components="{dmxBootbox5:{},dmxTyped:{}}" -->
+<dmx-serverconnect id="sc_userLoggedin" url="/api/auth/user_loggedin"></dmx-serverconnect>
+<dmx-serverconnect id="sc_ferramentas_read" url="/api/ferramentas/read"></dmx-serverconnect>
+<meta name="ac:route" content="/">
+<div class="container" style="">
+    <div class="row mb-5">
+        <div class="col mb-5">
+
+
+
+            <h1 class="text-start mt-5 mb-3 fw-light lead">Proposta de aplicação web colaborativa para integração e acolhimento de estudantes</h1>
+            <p class="fw-lighter" style="text-align: justify;">Este trabalho tem como objetivo elaborar uma proposta de solução de um software colaborativo para integração de estudantes, por meio de um protótipo de projeto web que permite os alunos se cadastrarem e compartilharem informações entre eles. As categorias de informações são pré-cadastradas na plataforma, mas podem ser adicionadas ou modificadas pelo desenvolvedor conforme a demanda de utilização da ferramenta.</p>
+            <p class="fw-lighter" style="text-align: justify;">Este sistema visa ser parte de uma estrutura oferecida pela universidade que busca estabelecer medidas institucionais de acolhimento estudantil e de promoção do sucesso acadêmico de forma a aumentar a inclusão. Esta necessidade existe principalmente entre os novos estudantes universitários. As funcionalidades do sistema são separadas por seções que são acessadas por meio de itens na barra de menus superior. As seções fornecidas pela proposta inicial são: ferramentas, locais e cuidados. Estas seções, no entanto, podem ser aumentadas e modificadas em trabalhos futuros.</p>
+            <h2 class="text-start lead fw-light mt-5 mb-3">Ferramentas</h2>
+            <div class="row ms-0 me-0" is="dmx-repeat" id="repeat_ferramentas" dmx-bind:repeat="sc_ferramentas_read.data.query" style="overflow: auto; flex-wrap: nowrap;">
+                <div class="col ps-0 pe-0" style="">
+                    <div class="card me-3" style="min-width: 300px;">
+                        <div class="card-header">{{nome}}</div>
+                        <div class="card-body">
+                            <p class="card-text mb-2" dmx-html="descricao"></p>
+                            <a href="#" class="btn btn-primary">Acessar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>

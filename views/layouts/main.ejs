@@ -1,0 +1,136 @@
+<!doctype html>
+<html>
+
+<head>
+    <base href="/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title><%=_('Title')%></title>
+
+    <link rel="stylesheet" href="bootstrap/5/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="/dmxAppConnect/dmxValidator/dmxValidator.css" />
+    <link rel="stylesheet" href="/dmxAppConnect/dmxNotifications/dmxNotifications.css" />
+
+    <script src="dmxAppConnect/dmxAppConnect.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="/dmxAppConnect/dmxBootstrap5Navigation/dmxBootstrap5Navigation.js" defer=""></script>
+    <script src="/dmxAppConnect/dmxRouting/dmxRouting.js" defer=""></script>
+    <script src="/dmxAppConnect/dmxBootstrap5Modal/dmxBootstrap5Modal.js" defer=""></script>
+    <script src="/dmxAppConnect/dmxValidator/dmxValidator.js" defer=""></script>
+    <script src="/dmxAppConnect/dmxNotifications/dmxNotifications.js" defer=""></script>
+    <script src="/dmxAppConnect/dmxBootstrap5Alert/dmxBootstrap5Alert.js" defer></script>
+    <script src="/dmxAppConnect/dmxBrowser/dmxBrowser.js" defer></script>
+    <script src="/dmxAppConnect/dmxFormatter/dmxFormatter.js" defer=""></script>
+    <script src="/dmxAppConnect/dmxTyped/dmxTyped.js" defer></script>
+    <script src="/dmxAppConnect/dmxTyped/typed.min.js" defer></script>
+    <script src="https://www.google.com/recaptcha/api.js" defer></script>
+    <script src="/dmxAppConnect/dmxStateManagement/dmxStateManagement.js" defer></script>
+    <script src="/dmxAppConnect/dmxBootstrap5Toasts/dmxBootstrap5Toasts.js" defer></script>
+    <script src="/dmxAppConnect/dmxBootbox5/bootstrap-modbox.min.js" defer></script>
+    <script src="/dmxAppConnect/dmxBootbox5/dmxBootbox5.js" defer></script>
+    <link rel="stylesheet" href="/dmxAppConnect/dmxBootstrap5TableGenerator/dmxBootstrap5TableGenerator.css" />
+    <script src="/dmxAppConnect/dmxBootstrap5Collapse/dmxBootstrap5Collapse.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify@4.17.7/dist/tagify.min.js" defer></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yaireo/tagify@4.17.7/dist/tagify.css" />
+    <script src="/dmxAppConnect/dmxTagify/dmxTagify.js" defer></script>
+    <script src="/dmxAppConnect/dmxDataTraversal/dmxDataTraversal.js" defer></script>
+    <link rel="stylesheet" href="/dmxAppConnect/dmxAnimateCSS/animate.min.css" />
+    <script src="/dmxAppConnect/dmxAnimateCSS/dmxAnimateCSS.js" defer></script>
+    <link rel="stylesheet" href="/dmxAppConnect/dmxLightbox/dmxLightbox.css" />
+    <script src="/dmxAppConnect/dmxLightbox/dmxLightbox.js" defer></script>
+    <script src="/dmxAppConnect/dmxBootbox/bootbox.all.min.js" defer></script>
+    <script src="/dmxAppConnect/dmxBootbox/dmxBootbox.js" defer></script>
+    <link rel="icon" href="/assets/unb_logo.svg">
+    <script src="https://cdn.jsdelivr.net/npm/summernote/dist/summernote-lite.min.js" defer></script>
+    <script src="/dmxAppConnect/dmxSummernote/dmxSummernote.js" defer></script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/summernote/dist/lang/summernote-pt-BR.js" defer></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/summernote/dist/summernote-lite.min.css" />
+
+    <link rel="stylesheet" href="/dmxAppConnect/dmxMediumEditor/medium-editor.css" />
+    <script src="/dmxAppConnect/dmxMediumEditor/medium-editor.js" defer></script>
+    <link rel="stylesheet" href="/dmxAppConnect/dmxMediumEditor/dmxMediumEditor.css" />
+    <script src="/dmxAppConnect/dmxMediumEditor/dmxMediumEditor.js" defer></script>
+    <link rel="stylesheet" href="/dmxAppConnect/dmxMediumEditor/themes/default.css" />
+    <link rel="stylesheet" href="/dmxAppConnect/dmxMediumEditorImageUpload/dmxMediumEditorImageUpload.css" />
+    <script src="/dmxAppConnect/dmxMediumEditorImageUpload/dmxMediumEditorImageUpload.js" defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?callback=Function.prototype&amp;key=AIzaSyBg0wGRYggO-Yw5dRS4_WAsl9xOKGuzDy0&amp;language=pt-BR&amp;libraries=places"></script>
+    <script src="/dmxAppConnect/dmxGoogleMaps/dmxGoogleMaps.js" defer></script>
+    <script src="/dmxAppConnect/dmxGoogleDirections/dmxGoogleDirections.js" defer></script>
+    <script src="/dmxAppConnect/dmxGooglePlaces/dmxGooglePlaces.js" defer></script>
+    <script src="/dmxAppConnect/dmxSummernoteFileUpload/summernote-upload.js" defer></script>
+    <script src="/dmxAppConnect/dmxSmoothScroll/dmxSmoothScroll.js" defer></script>
+    <script src="/socket.io/socket.io.js" defer></script>
+    <script src="/dmxAppConnect/dmxSockets/dmxSockets.js" defer></script>
+    <script src="/dmxAppConnect/dmxFormRepeat/dmxFormRepeat.js" defer></script>
+    <script src="/dmxAppConnect/dmxDatastore/dmxDatastore.js" defer></script>
+</head>
+
+<body is="dmx-app" id="main">
+
+
+    <dmx-serverconnect id="scLogout" url="/api/auth/user_logout" noload></dmx-serverconnect>
+    <dmx-serverconnect id="scUserLoggedin" url="/api/auth/user_loggedin"></dmx-serverconnect>
+
+    <dmx-notifications id="mainNotifications" offset-y="70">
+
+    </dmx-notifications>
+    <div is="dmx-browser" id="mainBrowser"></div>
+    <header class="bg-light h-auto">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col">
+                    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                        <a class="navbar-brand" dmx-on:click.prevent="mainBrowser.goto('/',true,'Página inicial')">
+                            <img src="/assets/unb_logo.svg" width="50" class="me-2">TCC UnB</a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar1_collapse" aria-controls="navbar1_collapse" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse justify-content-end" id="navbar1_collapse">
+                            <div class="navbar-nav">
+                                <a class="nav-item nav-link" dmx-on:click.prevent="mainBrowser.goto('/',true,'Página inicial')">Página inicial</a>
+                                <div class="nav-item dropdown" dmx-show="scUserLoggedin.data.identity"><a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdown1" role="button" aria-haspopup="true" aria-expanded="false">Ferramentas</a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdown1">
+                                        <a class="dropdown-item" dmx-on:click.prevent="mainBrowser.goto('/ferramentas',true,'Ferramentas')" href="/ferramentas" internal="true">Todas as ferramentas</a><a class="dropdown-item" href="/categorias" internal="true" dmx-on:click.prevent="mainBrowser.goto('/categorias',true,'Categorias')">Categorias</a>
+
+                                    </div>
+                                </div>
+                                <div class="nav-item dropdown" dmx-show="scUserLoggedin.data.identity"><a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdown2" role="button" aria-haspopup="true" aria-expanded="false">Locais</a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdown2">
+                                        <a class="dropdown-item" dmx-on:click.prevent="mainBrowser.goto('/locais',true,'Locais')" href="/locais" internal="true">Todos os locais</a><a class="dropdown-item" href="/categorias-de-ferramentas" internal="true">Tipos</a>
+
+                                    </div>
+                                </div>
+                                <div class="nav-item dropdown" dmx-show="scUserLoggedin.data.identity"><a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdown3" role="button" aria-haspopup="true" aria-expanded="false">Cuidados</a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdown3">
+                                        <a class="dropdown-item" dmx-on:click.prevent="mainBrowser.goto('/ferramentas',true,'Ferramentas')" href="/cuidados" internal="true">Todas os cuidados</a><a class="dropdown-item" href="/categorias-de-ferramentas" internal="true">Públicos-alvo</a>
+
+                                    </div>
+                                </div>
+                                <a class="nav-item nav-link" dmx-on:click.prevent="mainBrowser.goto('/usuarios',true,'Usuários')" href="/usuarios" internal="true" dmx-show="(scUserLoggedin.data.query.admin == 1)">Usuários</a>
+                                <a class="nav-item nav-link" dmx-on:click.prevent="mainBrowser.goto('/chat',true,'Chat')" href="/chat" internal="true">Chat</a>
+                                <a class="nav-item nav-link" dmx-on:click.prevent="mainBrowser.goto('/sobre',true,'Sobre')" href="/sobre" internal="true">Sobre</a>
+
+                            </div>
+                            <button id="btnLogout" class="btn" dmx-show="scUserLoggedin.data.identity" dmx-on:click="scLogout.load({});scUserLoggedin.reset();notifies1.success('You are now logged out.');mainBrowser.goto('/entrar',true,'Entrar')">Sair</button>
+                            <button id="btnLogin" class="btn btn-primary" dmx-on:click="mainBrowser.goto('/entrar',true,'Entrar')" dmx-hide="scUserLoggedin.data.identity">Entrar</button>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main class="ms-0">
+
+        <div is="dmx-view" id="content">
+            <%- await include(content, locals); %>
+        </div>
+    </main>
+
+    <script src="bootstrap/5/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

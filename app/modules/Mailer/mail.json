@@ -1,0 +1,11 @@
+{
+  "name": "mail",
+  "module": "mail",
+  "action": "setup",
+  "options": {
+    "host": "{{$_ENV.email_host}}",
+    "port": "{{$_ENV.email_port}}",
+    "username": "{{$_ENV.email_username}}",
+    "password": "{{$_ENV.email_password}}"
+  }
+}

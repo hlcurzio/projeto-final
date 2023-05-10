@@ -1,0 +1,93 @@
+{
+  "routes": [
+    {
+      "path": "/",
+      "page": "index",
+      "layout": "main"
+    },
+    {
+      "path": "/index",
+      "redirect": "/"
+    },
+    {
+      "path": "/main",
+      "redirect": "/"
+    },
+    {
+      "path": "/entrar",
+      "page": "entrar",
+      "layout": "main",
+      "data": {
+        "Title": "Entrar"
+      }
+    },
+    {
+      "path": "/cadastrar",
+      "page": "cadastrar",
+      "layout": "main"
+    },
+    {
+      "path": "/redefinir-senha",
+      "page": "redefinir-senha",
+      "layout": "main"
+    },
+    {
+      "path": "/ferramentas",
+      "page": "ferramentas",
+      "layout": "main",
+      "data": {
+        "Title": "Ferramentas"
+      },
+      "exec": "/api/ferramentas/read"
+    },
+    {
+      "path": "/categorias",
+      "page": "categorias",
+      "layout": "main",
+      "data": {
+        "Title": "Categorias"
+      }
+    },
+    {
+      "path": "/locais",
+      "page": "locais",
+      "layout": "main",
+      "exec": "/api/locais/read",
+      "data": {
+        "Title": "Locais"
+      }
+    },
+    {
+      "path": "/usuarios",
+      "page": "usuarios",
+      "layout": "main",
+      "exec": "/api/usuarios/read",
+      "data": {
+        "Title": "Usuários"
+      }
+    },
+    {
+      "path": "/sobre",
+      "page": "sobre",
+      "layout": "main",
+      "data": {
+        "Title": "Sobre"
+      }
+    },
+    {
+      "path": "/chat",
+      "page": "chat",
+      "layout": "main"
+    }
+  ],
+  "layouts": {
+    "main": {
+      "meta": [
+        {
+          "type": "text",
+          "name": "Title"
+        }
+      ]
+    }
+  }
+}

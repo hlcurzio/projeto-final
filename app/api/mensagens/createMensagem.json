@@ -1,0 +1,96 @@
+{
+  "meta": {
+    "$_POST": [
+      {
+        "type": "text",
+        "name": "conteudo"
+      },
+      {
+        "type": "number",
+        "name": "remetenteID"
+      },
+      {
+        "type": "number",
+        "name": "destinatarioID"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "insert",
+      "module": "dbupdater",
+      "action": "insert",
+      "options": {
+        "connection": "mydb",
+        "sql": {
+          "type": "insert",
+          "values": [
+            {
+              "table": "mensagens",
+              "column": "conteudo",
+              "type": "text",
+              "value": "{{$_POST.conteudo}}"
+            },
+            {
+              "table": "mensagens",
+              "column": "remetenteID",
+              "type": "number",
+              "value": "{{$_POST.remetenteID}}"
+            },
+            {
+              "table": "mensagens",
+              "column": "destinatarioID",
+              "type": "number",
+              "value": "{{$_POST.destinatarioID}}"
+            },
+            {
+              "table": "mensagens",
+              "column": "dataHora",
+              "type": "datetime",
+              "value": "{{NOW}}"
+            }
+          ],
+          "table": "mensagens",
+          "returning": "id",
+          "query": "insert into `mensagens` (`conteudo`, `dataHora`, `destinatarioID`, `remetenteID`) values (?, ?, ?, ?)",
+          "params": [
+            {
+              "name": ":P1",
+              "type": "expression",
+              "value": "{{$_POST.conteudo}}",
+              "test": ""
+            },
+            {
+              "name": ":P2",
+              "type": "expression",
+              "value": "{{$_POST.remetenteID}}",
+              "test": ""
+            },
+            {
+              "name": ":P3",
+              "type": "expression",
+              "value": "{{$_POST.destinatarioID}}",
+              "test": ""
+            },
+            {
+              "name": ":P4",
+              "type": "expression",
+              "value": "{{NOW}}",
+              "test": ""
+            }
+          ]
+        }
+      },
+      "meta": [
+        {
+          "name": "identity",
+          "type": "text"
+        },
+        {
+          "name": "affected",
+          "type": "number"
+        }
+      ]
+    }
+  }
+}

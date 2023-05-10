@@ -1,0 +1,35 @@
+<!-- Wappler include head-page="layouts/main" fontawesome_5="cdn" is="dmx-app" id="redefinirsenha" appconnect="local" components="{dmxBootstrap5Modal:{},dmxBootstrap5Navigation:{},dmxValidator:{},dmxNotifications:{},dmxTyped:{},dmxStateManagement:{}}" style="" class="style9" bootstrap5="local" -->
+<dmx-query-manager id="queryRedefinirSenha"></dmx-query-manager>
+<div class="container mt-5" style="max-width: 500px;">
+    <form method="post" dmx-generator="bootstrap5" dmx-form-type="vertical" is="dmx-serverconnect-form" id="frmRedefinirSenha" action="/api/auth/password_update" dmx-on:success="mainNotifications.success('Sucesso!')">
+
+
+        <h1>Redefinir senha</h1>
+
+
+        <input id="email" name="email" type="hidden" class="form-control" dmx-bind:value="queryRedefinirSenha.data.email"><input id="hash" name="hash" type="hidden" class="form-control" dmx-bind:value="queryRedefinirSenha.data.id">
+        <div class="row">
+
+            <div class="col-12 col-sm-6">
+                <div class="form-group mb-3">
+                    <label for="inp_redefinir_senha">Senha</label>
+                    <input type="password" class="form-control" id="inp_redefinir_senha" name="password" aria-describedby="inp_senha_help" dmxorgdomid="d24" required="" data-msg-required="Obrigatório.">
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group mb-3">
+                    <label for="inp_confirmar_redefinir_senha">Confirmar Senha</label>
+                    <input type="password" class="form-control" id="inp_confirmar_redefinir_senha" name="password2" aria-describedby="inp_confirmar_senha_help" dmxorgdomid="d28" required="" data-msg-required="Obrigatório." data-rule-equalto="password" data-msg-equalTo="As senhas não correspondem">
+                </div>
+            </div>
+        </div>
+        <div class="row g-0 mt-2">
+            <button id="btn_cadastrar" class="btn btn-primary" type="submit">Concluir</button>
+        </div>
+
+
+    </form>
+</div>
+
+
+<meta name="ac:route" content="/redefinir-senha">

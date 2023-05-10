@@ -1,0 +1,152 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "id"
+      }
+    ]
+  },
+  "exec": {
+    "steps": [
+      {
+        "name": "",
+        "module": "auth",
+        "action": "restrict",
+        "options": {
+          "provider": "security",
+          "loginUrl": "/entrar",
+          "forbiddenUrl": "/"
+        }
+      },
+      {
+        "name": "query",
+        "module": "dbconnector",
+        "action": "single",
+        "options": {
+          "connection": "db",
+          "sql": {
+            "type": "select",
+            "columns": [
+              {
+                "table": "ferramentas",
+                "column": "imagem"
+              }
+            ],
+            "params": [
+              {
+                "operator": "equal",
+                "type": "expression",
+                "name": ":P1",
+                "value": "{{$_GET.id}}",
+                "test": ""
+              }
+            ],
+            "table": {
+              "name": "ferramentas"
+            },
+            "primary": "ferramentaID",
+            "joins": [],
+            "wheres": {
+              "condition": "AND",
+              "rules": [
+                {
+                  "id": "ferramentas.ferramentaID",
+                  "field": "ferramentas.ferramentaID",
+                  "type": "double",
+                  "operator": "equal",
+                  "value": "{{$_GET.id}}",
+                  "data": {
+                    "table": "ferramentas",
+                    "column": "ferramentaID",
+                    "type": "number",
+                    "columnObj": {
+                      "type": "increments",
+                      "primary": true,
+                      "unique": false,
+                      "nullable": false,
+                      "name": "ferramentaID"
+                    }
+                  },
+                  "operation": "="
+                }
+              ],
+              "conditional": null,
+              "valid": true
+            },
+            "query": "select `imagem` from `ferramentas` where `ferramentas`.`ferramentaID` = ?"
+          }
+        },
+        "meta": [],
+        "outputType": "object"
+      },
+      {
+        "name": "",
+        "module": "core",
+        "action": "condition",
+        "options": {
+          "if": "{{query.imagem}}",
+          "then": {
+            "steps": {
+              "name": "fileRemove",
+              "module": "fs",
+              "action": "remove",
+              "options": {
+                "path": "{{'/public/assets/images/ferramentas/'+query.imagem}}"
+              },
+              "outputType": "boolean"
+            }
+          }
+        },
+        "outputType": "boolean"
+      },
+      {
+        "name": "delete",
+        "module": "dbupdater",
+        "action": "delete",
+        "options": {
+          "connection": "mydb",
+          "sql": {
+            "type": "delete",
+            "table": "ferramentas",
+            "wheres": {
+              "condition": "AND",
+              "rules": [
+                {
+                  "id": "ferramentaID",
+                  "field": "ferramentaID",
+                  "type": "double",
+                  "operator": "equal",
+                  "value": "{{$_GET.id}}",
+                  "data": {
+                    "column": "ferramentaID"
+                  },
+                  "operation": "="
+                }
+              ],
+              "conditional": null,
+              "valid": true
+            },
+            "returning": "ferramentaID",
+            "query": "delete from `ferramentas` where `ferramentaID` = ?",
+            "params": [
+              {
+                "operator": "equal",
+                "type": "expression",
+                "name": ":P1",
+                "value": "{{$_GET.id}}",
+                "test": ""
+              }
+            ]
+          }
+        },
+        "meta": [
+          {
+            "name": "affected",
+            "type": "number"
+          }
+        ]
+      }
+    ]
+  }
+}

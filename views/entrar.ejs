@@ -1,0 +1,74 @@
+<!-- Wappler include head-page="layouts/main" fontawesome_5="cdn" bootstrap5="local" is="dmx-app" id="entrar" appconnect="local" components="{dmxBootstrap5Modal:{},dmxBootstrap5Navigation:{},dmxValidator:{},dmxNotifications:{},dmxTyped:{},dmxBootstrap5Alert:{},dmxBootstrap5Toasts:{}}" style="" dmx-on:ready="mainNotifications.info('teste')" -->
+<div class="container mt-5 pt-5" style="max-width: 500px;">
+    <ul class="nav align-items-center nav-pills nav-justified" id="navTabs1_tabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="navLinkEntrar" data-bs-toggle="tab" href="#" data-bs-target="#tabPaneEntrar" role="tab" aria-controls="navTabs1_1" aria-selected="true">Entrar</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="navLinkCadastrar" data-bs-toggle="tab" href="#" data-bs-target="#tabPaneCadastrar" role="tab" aria-controls="navTabs1_2" aria-selected="false">Cadastrar</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-nowrap" id="navLinkRedefinirSenha" data-bs-toggle="tab" href="#" data-bs-target="#tabPaneRedefinirSenha" role="tab" aria-controls="navTabs1_2" aria-selected="false">Redefinir senha</a>
+        </li>
+    </ul>
+    <div class="tab-content" id="navTabs1_content">
+
+        <div class="tab-pane pt-3 active" id="tabPaneEntrar" role="tabpanel" aria-labelledby="navLinkEntrar">
+
+            <form method="post" dmx-generator="bootstrap5" dmx-form-type="vertical" is="dmx-serverconnect-form" id="frm_entrar" action="/api/auth/user_login" dmx-on:success="mainNotifications.success('Login efetuado com sucesso!');mainBrowser.goto('/',true,'Página inicial');scUserLoggedin.load({})" credentials="">
+                <div class="form-group mb-3">
+                    <label for="inp_entrar_email">E-mail</label>
+                    <input type="email" class="form-control" id="inp_entrar_email" name="email" aria-describedby="inp_email_help" dmxorgdomid="d20" required="" data-msg-required="Obrigatório.">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="inp_entrar_senha">Senha</label>
+                    <input type="password" class="form-control" id="inp_entrar_senha" name="password" aria-describedby="inp_senha_help" dmxorgdomid="d24" required="" data-msg-required="Obrigatório.">
+                </div>
+
+                <div class="row g-0 mt-2">
+                    <button id="btn_entrar" class="btn btn-primary" type="submit">Entrar</button>
+                </div>
+
+
+
+
+            </form>
+
+        </div>
+        <div class="tab-pane pt-3" id="tabPaneCadastrar" role="tabpanel" aria-labelledby="navLinkCadastrar">
+            <h1 class="lead fw-light">Solicitação de cadastro</h1>
+            <form method="post" dmx-generator="bootstrap5" dmx-form-type="vertical" is="dmx-serverconnect-form" id="frm_cadastrar" action="/api/auth/user_registration_request" dmx-on:success="mainNotifications.success('E-mail enviado')">
+
+                <div class="form-group mb-3">
+                    <label for="inp_cadastrar_email">E-mail</label>
+                    <input type="email" class="form-control" id="inp_cadastrar_email" name="email" aria-describedby="inp_email_help" dmxorgdomid="d20" required="" data-msg-required="Obrigatório." data-rule-email="true" data-msg-email="Email inválido.">
+                </div>
+                <div class="row g-0 mt-2">
+                    <button id="btn_cadastrar" class="btn btn-primary" type="submit">Enviar link</button>
+                </div>
+
+
+            </form>
+
+        </div>
+        <div class="tab-pane pt-3" id="tabPaneRedefinirSenha" role="tabpanel" aria-labelledby="navLinkRedefinirSenha">
+            <form method="post" dmx-generator="bootstrap5" dmx-form-type="vertical" is="dmx-serverconnect-form" id="frm_redefinir_senha" action="/api/auth/password_request" dmx-on:success="notifies1.success('E-mail enviado.')">
+                <div class="form-group mb-3">
+                    <label for="inp_entrar_email1">E-mail</label>
+                    <input type="email" class="form-control" id="inp_entrar_email1" name="email" aria-describedby="inp_email_help" dmxorgdomid="d20" data-rule-email="" data-msg-email="E-mail inválido." required="" data-msg-required="Obrigatório.">
+                </div>
+
+                <div class="row g-0 mt-2">
+                    <button id="btn_enviar" class="btn btn-primary" type="submit">Enviar link</button>
+                </div>
+
+
+
+            </form>
+        </div>
+
+    </div>
+</div>
+
+
+<meta name="ac:route" content="/entrar">

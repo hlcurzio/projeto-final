@@ -1,0 +1,14 @@
+{
+  "debug": true,
+  "secret": "cIZ8XoMKZka4HZG",
+  "cors": {
+    "origin": "*",
+    "methods": "GET,POST,PATCH,PUT,DELETE"
+  },
+  "env": {
+    "email_host": "localhost",
+    "email_port": "1025",
+    "email_username": "",
+    "email_password": ""
+  }
+}

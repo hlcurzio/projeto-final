@@ -1,0 +1,107 @@
+[
+  {
+    "name": "",
+    "module": "auth",
+    "action": "restrict",
+    "options": {
+      "provider": "security",
+      "loginUrl": "/entrar",
+      "forbiddenUrl": "/"
+    }
+  },
+  {
+    "name": "identity",
+    "module": "auth",
+    "action": "identify",
+    "options": {
+      "provider": "security"
+    },
+    "output": true,
+    "meta": []
+  },
+  {
+    "name": "query",
+    "module": "dbconnector",
+    "action": "single",
+    "options": {
+      "connection": "mydb",
+      "sql": {
+        "type": "select",
+        "columns": [
+          {
+            "table": "users",
+            "column": "firstname"
+          }
+        ],
+        "params": [
+          {
+            "operator": "equal",
+            "type": "expression",
+            "name": ":P1",
+            "value": "{{identity}}",
+            "test": ""
+          }
+        ],
+        "table": {
+          "name": "users"
+        },
+        "primary": "userID",
+        "joins": [],
+        "wheres": {
+          "condition": "AND",
+          "rules": [
+            {
+              "id": "users.userID",
+              "field": "users.userID",
+              "type": "double",
+              "operator": "equal",
+              "value": "{{identity}}",
+              "data": {
+                "table": "users",
+                "column": "userID",
+                "type": "number",
+                "columnObj": {
+                  "type": "increments",
+                  "primary": true,
+                  "unique": false,
+                  "nullable": false,
+                  "name": "userID"
+                }
+              },
+              "operation": "="
+            }
+          ],
+          "conditional": null,
+          "valid": true
+        },
+        "query": "select `firstname` from `users` where `users`.`userID` = ?"
+      }
+    },
+    "meta": [
+      {
+        "type": "text",
+        "name": "firstname"
+      }
+    ],
+    "outputType": "object"
+  },
+  {
+    "name": "join",
+    "module": "sockets",
+    "action": "join",
+    "options": {
+      "room": "{{identity.md5()}}"
+    }
+  },
+  {
+    "name": "emit",
+    "module": "sockets",
+    "action": "emit",
+    "options": {
+      "eventName": "message",
+      "params": {
+        "message_text": "{{query.firstname+' se conectou.'}}"
+      }
+    }
+  }
+]

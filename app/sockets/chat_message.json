@@ -1,0 +1,146 @@
+{
+  "meta": {
+    "$_PARAM": [
+      {
+        "type": "text",
+        "name": "remetenteId"
+      },
+      {
+        "type": "text",
+        "name": "destinatarioId"
+      },
+      {
+        "type": "text",
+        "name": "conteudo"
+      }
+    ]
+  },
+  "exec": {
+    "steps": [
+      {
+        "name": "",
+        "module": "auth",
+        "action": "restrict",
+        "options": {
+          "provider": "security",
+          "loginUrl": "/entrar",
+          "forbiddenUrl": "/"
+        }
+      },
+      {
+        "name": "identity",
+        "module": "auth",
+        "action": "identify",
+        "options": {
+          "provider": "security"
+        },
+        "output": true,
+        "meta": []
+      },
+      {
+        "name": "emitDestinatario",
+        "module": "sockets",
+        "action": "emit",
+        "options": {
+          "room": "{{$_PARAM.destinatarioId.md5()}}",
+          "eventName": "chat_message",
+          "params": {
+            "remetenteId": "{{$_PARAM.remetenteId}}",
+            "destinatarioId": "{{$_PARAM.destinatarioId}}",
+            "conteudo": "{{$_PARAM.conteudo}}"
+          }
+        }
+      },
+      {
+        "name": "emitRemetente",
+        "module": "sockets",
+        "action": "emit",
+        "options": {
+          "eventName": "chat_message",
+          "room": "{{identity.md5()}}",
+          "params": {
+            "remetenteId": "{{$_PARAM.remetenteId}}",
+            "destinatarioId": "{{$_PARAM.destinatarioId}}",
+            "conteudo": "{{$_PARAM.conteudo}}"
+          }
+        }
+      },
+      {
+        "name": "insert",
+        "module": "dbupdater",
+        "action": "insert",
+        "options": {
+          "connection": "mydb",
+          "sql": {
+            "type": "insert",
+            "values": [
+              {
+                "table": "mensagens",
+                "column": "conteudo",
+                "type": "text",
+                "value": "{{$_PARAM.conteudo}}"
+              },
+              {
+                "table": "mensagens",
+                "column": "remetenteID",
+                "type": "number",
+                "value": "{{$_PARAM.remetenteId}}"
+              },
+              {
+                "table": "mensagens",
+                "column": "destinatarioID",
+                "type": "number",
+                "value": "{{$_PARAM.destinatarioId}}"
+              },
+              {
+                "table": "mensagens",
+                "column": "dataHora",
+                "type": "datetime",
+                "value": "{{NOW}}"
+              }
+            ],
+            "table": "mensagens",
+            "returning": "id",
+            "query": "insert into `mensagens` (`conteudo`, `dataHora`, `destinatarioID`, `remetenteID`) values (?, ?, ?, ?) returning `id`",
+            "params": [
+              {
+                "name": ":P1",
+                "type": "expression",
+                "value": "{{$_PARAM.conteudo}}",
+                "test": ""
+              },
+              {
+                "name": ":P2",
+                "type": "expression",
+                "value": "{{$_PARAM.remetenteId}}",
+                "test": ""
+              },
+              {
+                "name": ":P3",
+                "type": "expression",
+                "value": "{{$_PARAM.destinatarioId}}",
+                "test": ""
+              },
+              {
+                "name": ":P4",
+                "type": "expression",
+                "value": "{{NOW}}",
+                "test": ""
+              }
+            ]
+          }
+        },
+        "meta": [
+          {
+            "name": "identity",
+            "type": "text"
+          },
+          {
+            "name": "affected",
+            "type": "number"
+          }
+        ]
+      }
+    ]
+  }
+}

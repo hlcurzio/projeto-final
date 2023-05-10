@@ -1,0 +1,34 @@
+{
+  "name": "query",
+  "module": "dbconnector",
+  "action": "single",
+  "options": {
+    "connection": "mydb",
+    "sql": {
+      "type": "select",
+      "columns": [],
+      "params": [],
+      "table": {
+        "name": "orientacoesGerais"
+      },
+      "joins": [],
+      "query": "select * from `orientacoesGerais`"
+    }
+  },
+  "output": true,
+  "meta": [
+    {
+      "type": "text",
+      "name": "conteudo"
+    },
+    {
+      "type": "datetime",
+      "name": "modificadaEm"
+    },
+    {
+      "type": "number",
+      "name": "modificadaPor"
+    }
+  ],
+  "outputType": "object"
+}

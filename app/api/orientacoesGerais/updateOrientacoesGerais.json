@@ -1,0 +1,76 @@
+{
+  "meta": {
+    "$_POST": [
+      {
+        "type": "text",
+        "name": "conteudo"
+      },
+      {
+        "type": "number",
+        "name": "modificadaPor"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "update",
+      "module": "dbupdater",
+      "action": "update",
+      "options": {
+        "connection": "mydb",
+        "sql": {
+          "type": "update",
+          "values": [
+            {
+              "table": "orientacoesGerais",
+              "column": "conteudo",
+              "type": "text",
+              "value": "{{$_POST.conteudo}}"
+            },
+            {
+              "table": "orientacoesGerais",
+              "column": "modificadaEm",
+              "type": "datetime",
+              "value": "{{NOW}}"
+            },
+            {
+              "table": "orientacoesGerais",
+              "column": "modificadaPor",
+              "type": "number",
+              "value": "{{$_POST.modificadaPor}}"
+            }
+          ],
+          "table": "orientacoesGerais",
+          "wheres": null,
+          "query": "update `orientacoesGerais` set `conteudo` = ?, `modificadaEm` = ?, `modificadaPor` = ?",
+          "params": [
+            {
+              "name": ":P1",
+              "type": "expression",
+              "value": "{{$_POST.conteudo}}",
+              "test": ""
+            },
+            {
+              "name": ":P2",
+              "type": "expression",
+              "value": "{{NOW}}",
+              "test": ""
+            },
+            {
+              "name": ":P3",
+              "type": "expression",
+              "value": "{{$_POST.modificadaPor}}",
+              "test": ""
+            }
+          ]
+        }
+      },
+      "meta": [
+        {
+          "name": "affected",
+          "type": "number"
+        }
+      ]
+    }
+  }
+}

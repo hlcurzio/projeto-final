@@ -1,0 +1,115 @@
+{
+  "meta": {
+    "options": {
+      "linkedFile": "/views/entrar.ejs",
+      "linkedForm": "frm_cadastrar"
+    },
+    "$_POST": [
+      {
+        "type": "text",
+        "fieldName": "email",
+        "options": {
+          "rules": {
+            "core:required": {
+              "param": "",
+              "message": "Obrigatório."
+            },
+            "core:email": {
+              "message": "Email inválido."
+            }
+          }
+        },
+        "name": "email"
+      }
+    ],
+    "$_SERVER": [
+      {
+        "type": "text",
+        "name": "HTTP_HOST"
+      }
+    ]
+  },
+  "exec": {
+    "steps": [
+      {
+        "name": "email",
+        "module": "core",
+        "action": "setvalue",
+        "options": {
+          "value": "{{$_POST.email.trim().lowercase()}}"
+        },
+        "meta": [],
+        "outputType": "text"
+      },
+      {
+        "name": "validate",
+        "module": "validator",
+        "action": "validate",
+        "options": {
+          "data": [
+            {
+              "name": "validate_1",
+              "value": "{{email}}",
+              "rules": {
+                "db:notexists": {
+                  "param": {
+                    "connection": "mydb",
+                    "table": "users",
+                    "column": "email"
+                  },
+                  "message": "Este e-mail já está cadastrado."
+                }
+              },
+              "fieldName": "email"
+            }
+          ]
+        }
+      },
+      {
+        "name": "validate1",
+        "module": "validator",
+        "action": "validate",
+        "options": {
+          "data": [
+            {
+              "name": "validate_1",
+              "value": "{{email}}",
+              "rules": {
+                "core:pattern": {
+                  "param": ".*@.*?unb\\.br",
+                  "message": "Somente e-mails no domínio unb.br (.*@.*?unb\\.br)"
+                }
+              },
+              "fieldName": "email"
+            }
+          ]
+        }
+      },
+      {
+        "name": "code",
+        "module": "core",
+        "action": "setvalue",
+        "options": {
+          "value": "{{email.sha1(email)}}"
+        },
+        "meta": [],
+        "outputType": "text"
+      },
+      {
+        "name": "",
+        "module": "mail",
+        "action": "send",
+        "options": {
+          "instance": "mail",
+          "subject": "Cadastrar",
+          "fromEmail": "hlcurziotcc@gmail.com",
+          "toEmail": "{{email}}",
+          "body": "<p>Clique <a href=\"http://{{$_SERVER.HTTP_HOST}}/cadastrar?email={{email}}&code={{code}}\">aqui</a> para cadastrar</p>",
+          "contentType": "html",
+          "replyTo": "hlcurziotcc@gmail.com",
+          "fromName": "hlcurziotcc"
+        }
+      }
+    ]
+  }
+}

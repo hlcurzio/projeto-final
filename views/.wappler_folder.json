@@ -1,0 +1,35 @@
+{
+  "password-reset.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  },
+  "index.ejs": {
+    "layoutPage": "main"
+  },
+  "redefinir-senha.ejs": {
+    "layoutPage": "main"
+  },
+  "ferramentas.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  },
+  "categorias-de-ferramentas.ejs": {
+    "layoutPage": "admin",
+    "description": ""
+  },
+  "sobre.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  },
+  "usuarios.ejs": {
+    "layoutPage": "main"
+  },
+  "teste.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  },
+  "chat.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  }
+}

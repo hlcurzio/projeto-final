@@ -1,0 +1,94 @@
+<!-- Wappler include head-page="layouts/main" fontawesome_5="cdn" bootstrap5="local" is="dmx-app" id="ferramentas" appConnect="local" components="{dmxBootstrap5TableGenerator:{},dmxBootstrap5Collapse:{},dmxBootstrap5Modal:{},dmxTagify:{},dmxDataTraversal:{},dmxBootstrap5Navigation:{},dmxAnimateCSS:{},dmxLightbox:{},dmxBootbox5:{},dmxBootbox:{},dmxSummernote:{},dmxMediumEditor:{},dmxMediumEditorImageUpload:{},dmxGoogleMaps:{},dmxGoogleDirections:{},dmxFormatter:{},dmxGooglePlaces:{},dmxSockets:{},dmxFormRepeat:{},dmxDatastore:{}}" jquery_slim_35="cdn" -->
+<dmx-socket id="socketChat" dmx-on:message.chat_message="mainNotifications.info('Nova mensagem.');sc_getMensagensByRemetDestin.load({})"></dmx-socket>
+<dmx-socket id="socketConexao" dmx-on:message.message="mainNotifications.info($event.message_text)"></dmx-socket>
+<dmx-serverconnect id="sc_getMensagensByRemetDestin" url="/api/mensagens/getMensagensByRemetDestin" sockets="true" dmx-param:destinatarioid="data_detail.data.userID" dmx-param:remetenteid="scUserLoggedin.data.query.userID"></dmx-serverconnect>
+
+
+
+<dmx-serverconnect id="sc_usuarios_read" url="/api/usuarios/read" dmx-param:categoria_id=""></dmx-serverconnect>
+
+
+<dmx-data-detail id="data_detail" dmx-bind:data="sc_usuarios_read.data.query" key="userID">
+    <div class="modal" id="modal_detalhar" is="dmx-bs5-modal" tabindex="-1" dmx-on:show-bs-modal="sc_getMensagensByRemetDestin.load({destinatarioid: data_detail.data.userID, remetenteid: scUserLoggedin.data.query.userID})">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+
+                <div class="modal-header">
+                    <h5 class="modal-title">{{data_detail.data.firstname+' '+data_detail.data.lastname}}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col" is="dmx-repeat" id="repeat1" dmx-bind:repeat="sc_getMensagensByRemetDestin.data.queryMensagensByRemetDestin">
+                                <div class="d-block bg-primary mt-2 mb-2 pt-3 pb-3 ps-3 pe-3 bg-opacity-75" style="border-radius: 10px;">
+                                    <p dmx-text="conteudo">A nice paragraph</p>
+                                    <div class="d-flex justify-content-between">
+                                        <p dmx-text="remet_firstname+' '+remet_lastname">A nice paragraph</p>
+                                        <p dmx-text="dataHora">A nice paragraph</p>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <form id="form_createMensagem" method="post" is="dmx-serverconnect-form" action="/api/mensagens/createMensagem" dmx-on:success="mainNotifications.success('Mensagem enviada com sucesso!');sc_getMensagensByRemetDestin.load({destinatarioid: data_detail.data.userID, remetenteid: scUserLoggedin.data.identity})">
+                        <input id="input_remetente" name="remetenteID" type="hidden" class="form-control" dmx-bind:value="scUserLoggedin.data.query.userID">
+                        <input id="input_destinatario" name="destinatarioID" type="hidden" class="form-control" dmx-bind:value="data_detail.data.userID">
+                        <div class="row mt-3">
+                            <div class="col-9">
+                                <input id="input_content" name="conteudo" type="text" class="form-control">
+                            </div>
+                            <div class="col-3">
+                                <button id="btn_enviarMensagem" class="btn w-100 btn-primary" dmx-on:click="socketChat.emit('chat_message',{remetenteId: input_remetente.value, destinatarioId: input_destinatario.value, conteudo: input_content.value})">Enviar</button>
+                            </div>
+
+                        </div>
+                    </form>
+
+
+
+                </div>
+                <div class="modal-footer">
+                    <button id="btn_editar_ferramenta" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modal_editar">
+                        <i class="fas fa-edit"></i>
+                        <br></button>
+                    <button id="btn_deletar_ferramenta" class="btn btn-danger btn-sm" dmx-on:click="run({'bootbox.confirm':{message:'Tem certeza que deseja deletar este item?',buttons:{confirm:{label:'Deletar',className:'btn-danger'},cancel:{label:'Cancelar',className:'btn-secondary'}},title:'Esta ação é irreversível',then:{steps:[{serverConnect:{url:'/api/usuarios/delete',site:'SIP',params:{id:`data_detail.data.userID`},name:'sc'}},{run:{action:`mainNotifications.info(\'Item deletado com sucesso!\');modal_detalhar.hide();sc_usuarios_read.load({})`}}]}}})"><i class="fas fa-trash"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</dmx-data-detail>
+<div class="mt-5 container" style="">
+    <div class="row">
+        <div class="col align-self-center">
+            <div class="d-flex align-items-center flex-wrap justify-content-between">
+
+                <h1 class="fw-light">Chat</h1>
+                <button id="btn_adicionar" class="btn btn-primary ms-3" data-bs-target="#modal_adicionar" data-bs-toggle="modal">Adicionar</button>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover table-borderless">
+                    <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="sc_usuarios_read.data.query" id="tableRepeat2">
+                        <tr>
+                            <td dmx-text="email+' '" dmx-on:click="data_detail.select(userID);data_detail.modal_detalhar.show()"></td>
+                            <td style="width: 95px;" class="text-end">
+                                <button id="btn_editar" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#modal_editar" dmx-on:click="data_detail.select(userID)"><i class="fas fa-edit"></i></button>
+                                <button id="btn_deletar" class="btn btn-sm btn-danger" dmx-on:click="run({'bootbox.confirm':{message:'Tem certeza que deseja deletar este item?',title:'Esta ação é irreversível',buttons:{confirm:{label:'Deletar',className:'btn-danger'},cancel:{label:'Cancelar',className:'btn-secondary'}},then:{steps:[{serverConnect:{url:'/api/usuarios/delete',site:'SIP',params:{id:`userID`},name:'sc'}},{run:{action:`mainNotifications.info(\'Item deletado com sucesso!\');sc_usuarios_read.load({})`}}]}}})"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<meta name="ac:route" content="/chat">

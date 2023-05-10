@@ -1,0 +1,34 @@
+{
+  "meta": {
+    "$_ENV": [
+      {
+        "type": "text",
+        "name": "email_host"
+      },
+      {
+        "type": "text",
+        "name": "email_port"
+      },
+      {
+        "type": "text",
+        "name": "email_username"
+      },
+      {
+        "type": "text",
+        "name": "email_password"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "identity",
+      "module": "auth",
+      "action": "identify",
+      "options": {
+        "provider": "security"
+      },
+      "output": true,
+      "meta": []
+    }
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "meta": {
+    "options": {
+      "linkedFile": "/views/entrar.ejs",
+      "linkedForm": "frm_entrar"
+    },
+    "$_POST": [
+      {
+        "type": "text",
+        "fieldName": "email",
+        "options": {
+          "rules": {
+            "core:required": {
+              "param": "",
+              "message": "Obrigatório."
+            },
+            "core:email": {}
+          }
+        },
+        "name": "email"
+      },
+      {
+        "type": "text",
+        "fieldName": "password",
+        "options": {
+          "rules": {
+            "core:required": {
+              "param": "",
+              "message": "Obrigatório."
+            }
+          }
+        },
+        "name": "password"
+      }
+    ]
+  },
+  "exec": {
+    "steps": [
+      {
+        "name": "email",
+        "module": "core",
+        "action": "setvalue",
+        "options": {
+          "value": "{{$_POST.email.lowercase()}}"
+        },
+        "meta": [],
+        "outputType": "text"
+      },
+      {
+        "name": "identity",
+        "module": "auth",
+        "action": "login",
+        "options": {
+          "provider": "security",
+          "username": "{{email}}",
+          "remember": 1
+        },
+        "output": true,
+        "meta": []
+      }
+    ]
+  }
+}

@@ -1,0 +1,146 @@
+:root {
+    --offcanvas-width: 250px;
+    --headerHeight: 40px;
+}
+.offcanvas-start {
+    width: var(--offcanvas-width);
+}
+header {
+    height: var(--headerHeight);
+}
+@media (min-width: 992px) {
+    main {
+        margin-left: var(--offcanvas-width);
+    }
+    .offcanvas {
+        -webkit-transform: none;
+                transform: none;
+        visibility: visible !important;
+        top: var(--headerHeight);
+    }
+    .offcanvas-backdrop::before {
+        display: none;
+    }
+    .offcanvas-header .btn-close {
+        visibility: hidden;
+    }
+    #btnShowOC {
+        visibility: hidden;  
+    }
+}
+.style1 {}
+.style2 {
+}
+.style3 {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: start;
+        -ms-flex-pack: start;
+            justify-content: flex-start;
+}
+.style4 {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+}
+.style5 {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+.style6 {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    display: flex;
+    display: flex;
+}
+.style7 {
+    margin-right: 6px;
+}
+.style8 {
+    display: inline-block;
+}
+.style9 {}
+.style10 {
+    background-size: contain;
+    max-height: 30px;
+}
+.style11 {
+    padding-bottom: 0px;
+}
+.style12 {
+    position: absolute;
+}
+.style13 {
+    position: absolute;
+    top: 50%;
+}
+.style14 {
+    position: relative;
+    z-index: 10;
+}
+.style15 {
+    margin-bottom: 60px;
+}
+#text1 {
+}
+#text1 {
+}
+#text1 {
+}
+.pac-container {
+    z-index: 2000 !important;
+}
+
+p {
+    margin-bottom: 0;
+}
+
+.style16 {
+    -ms-flex-wrap: nowrap;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        flex-wrap: nowrap;
+        clear: both;
+        float: right;
+        position: static;
+}
+
+.style17 {
+    -ms-flex-wrap: nowrap;
+        flex-wrap: nowrap;
+}
+
+.style18 {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: nowrap;
+        flex-wrap: nowrap;
+}
+
+.style19 {}
+
+.style20 {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: nowrap;
+        flex-wrap: nowrap;
+        overflow: auto;
+}
+
+.style21 {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: nowrap;
+        flex-wrap: nowrap;
+}

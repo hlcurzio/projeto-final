@@ -1,0 +1,189 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      },
+      {
+        "type": "text",
+        "name": "categoria_id"
+      }
+    ]
+  },
+  "exec": {
+    "steps": [
+      {
+        "name": "",
+        "module": "auth",
+        "action": "restrict",
+        "options": {
+          "provider": "security",
+          "loginUrl": "/entrar",
+          "forbiddenUrl": "/"
+        }
+      },
+      {
+        "name": "query",
+        "module": "dbconnector",
+        "action": "select",
+        "options": {
+          "connection": "mydb",
+          "sql": {
+            "type": "select",
+            "columns": [
+              {
+                "table": "ferramentas",
+                "column": "*"
+              },
+              {
+                "table": "users",
+                "column": "firstname",
+                "alias": "criada_por_nome"
+              },
+              {
+                "table": "catDeFerramentas",
+                "column": "nome",
+                "alias": "categoria_nome"
+              }
+            ],
+            "params": [
+              {
+                "operator": "equal",
+                "type": "expression",
+                "name": ":P1",
+                "value": "{{$_GET.categoria_id}}",
+                "test": ""
+              }
+            ],
+            "table": {
+              "name": "ferramentas"
+            },
+            "primary": "ferramentaID",
+            "joins": [
+              {
+                "table": "users",
+                "column": "*",
+                "type": "LEFT",
+                "clauses": {
+                  "condition": "AND",
+                  "rules": [
+                    {
+                      "table": "users",
+                      "column": "userID",
+                      "operator": "equal",
+                      "operation": "=",
+                      "value": {
+                        "table": "ferramentas",
+                        "column": "criada_por"
+                      }
+                    }
+                  ]
+                },
+                "primary": "userID"
+              },
+              {
+                "table": "catDeFerramentas",
+                "column": "*",
+                "type": "LEFT",
+                "clauses": {
+                  "condition": "AND",
+                  "rules": [
+                    {
+                      "table": "catDeFerramentas",
+                      "column": "id",
+                      "operator": "equal",
+                      "operation": "=",
+                      "value": {
+                        "table": "ferramentas",
+                        "column": "categoria"
+                      }
+                    }
+                  ]
+                },
+                "primary": "id"
+              }
+            ],
+            "query": "select `ferramentas`.*, `users`.`firstname` as `criada_por_nome`, `catDeFerramentas`.`nome` as `categoria_nome` from `ferramentas` left join `users` on `users`.`userID` = `ferramentas`.`criada_por` left join `catDeFerramentas` on `catDeFerramentas`.`id` = `ferramentas`.`categoria` where `ferramentas`.`categoria` = ?",
+            "wheres": {
+              "condition": "AND",
+              "rules": [
+                {
+                  "id": "ferramentas.categoria",
+                  "field": "ferramentas.categoria",
+                  "type": "double",
+                  "operator": "equal",
+                  "value": "{{$_GET.categoria_id}}",
+                  "data": {
+                    "table": "ferramentas",
+                    "column": "categoria",
+                    "type": "number",
+                    "columnObj": {
+                      "type": "reference",
+                      "primary": false,
+                      "unique": false,
+                      "nullable": true,
+                      "references": "id",
+                      "inTable": "catDeFerramentas",
+                      "referenceType": "integer",
+                      "onUpdate": "CASCADE",
+                      "onDelete": "SET NULL",
+                      "name": "categoria"
+                    }
+                  },
+                  "operation": "="
+                }
+              ],
+              "conditional": "{{$_GET.categoria_id}}",
+              "valid": true
+            }
+          }
+        },
+        "output": true,
+        "meta": [
+          {
+            "type": "number",
+            "name": "ferramentaID"
+          },
+          {
+            "type": "text",
+            "name": "nome"
+          },
+          {
+            "type": "text",
+            "name": "descricao"
+          },
+          {
+            "type": "text",
+            "name": "link"
+          },
+          {
+            "type": "text",
+            "name": "imagem"
+          },
+          {
+            "type": "number",
+            "name": "criada_por"
+          },
+          {
+            "type": "number",
+            "name": "categoria"
+          },
+          {
+            "type": "text",
+            "name": "criada_por_nome"
+          },
+          {
+            "type": "text",
+            "name": "categoria_nome"
+          }
+        ],
+        "outputType": "array"
+      }
+    ]
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "meta": {
+    "$_POST": [
+      {
+        "type": "text",
+        "name": "nome"
+      },
+      {
+        "type": "text",
+        "name": "latitude"
+      },
+      {
+        "type": "text",
+        "name": "longitude"
+      }
+    ]
+  },
+  "exec": {
+    "steps": [
+      {
+        "name": "",
+        "module": "auth",
+        "action": "restrict",
+        "options": {
+          "provider": "security",
+          "loginUrl": "/entrar",
+          "forbiddenUrl": "/"
+        }
+      },
+      {
+        "name": "insert",
+        "module": "dbupdater",
+        "action": "insert",
+        "options": {
+          "connection": "mydb",
+          "sql": {
+            "type": "insert",
+            "values": [
+              {
+                "table": "locais",
+                "column": "nome",
+                "type": "text",
+                "value": "{{$_POST.nome}}"
+              },
+              {
+                "table": "locais",
+                "column": "latitude",
+                "type": "text",
+                "value": "{{$_POST.latitude}}"
+              },
+              {
+                "table": "locais",
+                "column": "longitude",
+                "type": "text",
+                "value": "{{$_POST.longitude}}"
+              }
+            ],
+            "table": "locais",
+            "returning": "id",
+            "query": "insert into `locais` (`latitude`, `longitude`, `nome`) values (?, ?, ?)",
+            "params": [
+              {
+                "name": ":P1",
+                "type": "expression",
+                "value": "{{$_POST.nome}}",
+                "test": ""
+              },
+              {
+                "name": ":P2",
+                "type": "expression",
+                "value": "{{$_POST.latitude}}",
+                "test": ""
+              },
+              {
+                "name": ":P3",
+                "type": "expression",
+                "value": "{{$_POST.longitude}}",
+                "test": ""
+              }
+            ]
+          }
+        },
+        "meta": [
+          {
+            "name": "identity",
+            "type": "text"
+          },
+          {
+            "name": "affected",
+            "type": "number"
+          }
+        ]
+      }
+    ]
+  }
+}

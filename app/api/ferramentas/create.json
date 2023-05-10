@@ -1,0 +1,204 @@
+{
+  "meta": {
+    "options": {
+      "linkedFile": "/views/ferramentas.ejs",
+      "linkedForm": "form_adicionar_ferramenta"
+    },
+    "$_POST": [
+      {
+        "type": "text",
+        "fieldName": "nome",
+        "name": "nome"
+      },
+      {
+        "type": "text",
+        "fieldName": "descricao",
+        "name": "descricao"
+      },
+      {
+        "type": "text",
+        "fieldName": "link",
+        "name": "link"
+      },
+      {
+        "type": "file",
+        "fieldName": "imagem",
+        "name": "imagem",
+        "sub": [
+          {
+            "type": "text",
+            "name": "name"
+          },
+          {
+            "type": "text",
+            "name": "type"
+          },
+          {
+            "type": "number",
+            "name": "size"
+          },
+          {
+            "type": "text",
+            "name": "error"
+          }
+        ],
+        "outputType": "file"
+      },
+      {
+        "type": "text",
+        "name": "categoria"
+      }
+    ]
+  },
+  "exec": {
+    "steps": [
+      {
+        "name": "",
+        "module": "auth",
+        "action": "restrict",
+        "options": {
+          "provider": "security",
+          "loginUrl": "/entrar",
+          "forbiddenUrl": "/"
+        }
+      },
+      {
+        "name": "upload",
+        "module": "upload",
+        "action": "upload",
+        "options": {
+          "path": "/public/assets/images/ferramentas",
+          "fields": "{{$_POST.imagem}}",
+          "template": "{guid}{ext}"
+        },
+        "meta": [
+          {
+            "name": "name",
+            "type": "text"
+          },
+          {
+            "name": "path",
+            "type": "text"
+          },
+          {
+            "name": "url",
+            "type": "text"
+          },
+          {
+            "name": "type",
+            "type": "text"
+          },
+          {
+            "name": "size",
+            "type": "text"
+          },
+          {
+            "name": "error",
+            "type": "number"
+          }
+        ],
+        "outputType": "file"
+      },
+      {
+        "name": "insert",
+        "module": "dbupdater",
+        "action": "insert",
+        "options": {
+          "connection": "mydb",
+          "sql": {
+            "type": "insert",
+            "values": [
+              {
+                "table": "ferramentas",
+                "column": "nome",
+                "type": "text",
+                "value": "{{$_POST.nome}}"
+              },
+              {
+                "table": "ferramentas",
+                "column": "descricao",
+                "type": "text",
+                "value": "{{$_POST.descricao}}"
+              },
+              {
+                "table": "ferramentas",
+                "column": "link",
+                "type": "text",
+                "value": "{{$_POST.link}}"
+              },
+              {
+                "table": "ferramentas",
+                "column": "imagem",
+                "type": "text",
+                "value": "{{upload.name}}"
+              },
+              {
+                "table": "ferramentas",
+                "column": "criada_por",
+                "type": "number",
+                "value": "{{identity}}"
+              },
+              {
+                "table": "ferramentas",
+                "column": "categoria",
+                "type": "number",
+                "value": "{{$_POST.categoria}}"
+              }
+            ],
+            "table": "ferramentas",
+            "returning": "ferramentaID",
+            "query": "insert into `ferramentas` (`categoria`, `criada_por`, `descricao`, `imagem`, `link`, `nome`) values (?, ?, ?, ?, ?, ?) returning `ferramentaID`",
+            "params": [
+              {
+                "name": ":P1",
+                "type": "expression",
+                "value": "{{$_POST.nome}}",
+                "test": ""
+              },
+              {
+                "name": ":P2",
+                "type": "expression",
+                "value": "{{$_POST.descricao}}",
+                "test": ""
+              },
+              {
+                "name": ":P3",
+                "type": "expression",
+                "value": "{{$_POST.link}}",
+                "test": ""
+              },
+              {
+                "name": ":P4",
+                "type": "expression",
+                "value": "{{upload.name}}",
+                "test": ""
+              },
+              {
+                "name": ":P5",
+                "type": "expression",
+                "value": "{{identity}}",
+                "test": ""
+              },
+              {
+                "name": ":P6",
+                "type": "expression",
+                "value": "{{$_POST.categoria}}",
+                "test": ""
+              }
+            ]
+          }
+        },
+        "meta": [
+          {
+            "name": "identity",
+            "type": "text"
+          },
+          {
+            "name": "affected",
+            "type": "number"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,184 @@
+{
+  "meta": {
+    "options": {
+      "linkedFile": "/views/cadastrar.ejs",
+      "linkedForm": "frmCadastrar"
+    },
+    "$_POST": [
+      {
+        "type": "text",
+        "fieldName": "firstname",
+        "options": {
+          "rules": {
+            "core:required": {
+              "param": "",
+              "message": "Obrigatório."
+            }
+          }
+        },
+        "name": "firstname"
+      },
+      {
+        "type": "text",
+        "fieldName": "lastname",
+        "options": {
+          "rules": {
+            "core:required": {
+              "param": "",
+              "message": "Obrigatório."
+            }
+          }
+        },
+        "name": "lastname"
+      },
+      {
+        "type": "text",
+        "fieldName": "email",
+        "options": {
+          "rules": {
+            "core:required": {
+              "param": "",
+              "message": "Obrigatório."
+            },
+            "core:email": {
+              "message": "Email inválido."
+            }
+          }
+        },
+        "name": "email"
+      },
+      {
+        "type": "number",
+        "name": "userID"
+      },
+      {
+        "type": "boolean",
+        "ui": {
+          "inputValues": {}
+        },
+        "name": "admin"
+      }
+    ]
+  },
+  "exec": {
+    "steps": [
+      {
+        "name": "",
+        "module": "auth",
+        "action": "restrict",
+        "options": {
+          "provider": "security",
+          "loginUrl": "/entrar",
+          "forbiddenUrl": "/",
+          "permissions": [
+            "admin"
+          ]
+        }
+      },
+      {
+        "name": "email",
+        "module": "core",
+        "action": "setvalue",
+        "options": {
+          "value": "{{$_POST.email.lowercase().trim()}}"
+        },
+        "meta": [],
+        "outputType": "text"
+      },
+      {
+        "name": "update",
+        "module": "dbupdater",
+        "action": "update",
+        "options": {
+          "connection": "mydb",
+          "sql": {
+            "type": "update",
+            "values": [
+              {
+                "table": "users",
+                "column": "firstname",
+                "type": "text",
+                "value": "{{$_POST.firstname}}"
+              },
+              {
+                "table": "users",
+                "column": "lastname",
+                "type": "text",
+                "value": "{{$_POST.lastname}}"
+              },
+              {
+                "table": "users",
+                "column": "email",
+                "type": "text",
+                "value": "{{email}}"
+              },
+              {
+                "table": "users",
+                "column": "admin",
+                "type": "boolean",
+                "value": "{{$_POST.admin.default(0)}}"
+              }
+            ],
+            "table": "users",
+            "wheres": {
+              "condition": "AND",
+              "rules": [
+                {
+                  "id": "userID",
+                  "type": "double",
+                  "operator": "equal",
+                  "value": "{{$_POST.userID}}",
+                  "data": {
+                    "column": "userID"
+                  },
+                  "operation": "="
+                }
+              ]
+            },
+            "returning": "userID",
+            "query": "update `users` set `firstname` = ?, `lastname` = ?, `email` = ?, `admin` = ? where `userID` = ? returning `userID`",
+            "params": [
+              {
+                "name": ":P1",
+                "type": "expression",
+                "value": "{{$_POST.firstname}}",
+                "test": ""
+              },
+              {
+                "name": ":P2",
+                "type": "expression",
+                "value": "{{$_POST.lastname}}",
+                "test": ""
+              },
+              {
+                "name": ":P3",
+                "type": "expression",
+                "value": "{{email}}",
+                "test": ""
+              },
+              {
+                "name": ":P4",
+                "type": "expression",
+                "value": "{{$_POST.admin.default(0)}}",
+                "test": ""
+              },
+              {
+                "operator": "equal",
+                "type": "expression",
+                "name": ":P5",
+                "value": "{{$_POST.userID}}",
+                "test": ""
+              }
+            ]
+          }
+        },
+        "meta": [
+          {
+            "name": "affected",
+            "type": "number"
+          }
+        ]
+      }
+    ]
+  }
+}
