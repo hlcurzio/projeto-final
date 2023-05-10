@@ -29,20 +29,20 @@
             },
             {
               "table": "orientacoesGerais",
-              "column": "modificadaEm",
-              "type": "datetime",
-              "value": "{{NOW}}"
-            },
-            {
-              "table": "orientacoesGerais",
               "column": "modificadaPor",
               "type": "number",
               "value": "{{$_POST.modificadaPor}}"
+            },
+            {
+              "table": "orientacoesGerais",
+              "column": "modificadaEm",
+              "type": "datetime",
+              "value": "{{NOW}}"
             }
           ],
           "table": "orientacoesGerais",
           "wheres": null,
-          "query": "update `orientacoesGerais` set `conteudo` = ?, `modificadaEm` = ?, `modificadaPor` = ?",
+          "query": "update `orientacoesGerais` set `conteudo` = ?, `modificadaPor` = ?, `modificadaEm` = ? returning `id`",
           "params": [
             {
               "name": ":P1",
@@ -53,16 +53,17 @@
             {
               "name": ":P2",
               "type": "expression",
-              "value": "{{NOW}}",
+              "value": "{{$_POST.modificadaPor}}",
               "test": ""
             },
             {
               "name": ":P3",
               "type": "expression",
-              "value": "{{$_POST.modificadaPor}}",
+              "value": "{{NOW}}",
               "test": ""
             }
-          ]
+          ],
+          "returning": "id"
         }
       },
       "meta": [

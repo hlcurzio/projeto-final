@@ -12,11 +12,16 @@
         "name": "orientacoesGerais"
       },
       "joins": [],
-      "query": "select * from `orientacoesGerais`"
+      "query": "select * from `orientacoesGerais`",
+      "primary": "id"
     }
   },
   "output": true,
   "meta": [
+    {
+      "type": "number",
+      "name": "id"
+    },
     {
       "type": "text",
       "name": "conteudo"

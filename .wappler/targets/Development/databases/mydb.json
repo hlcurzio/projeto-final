@@ -69,7 +69,8 @@
         "db": {},
         "refs": {
           "ferramentas": "criada_por",
-          "mensagens": "destinatarioID"
+          "mensagens": "destinatarioID",
+          "orientacoesGerais": "modificadaPor"
         }
       },
       "catDeFerramentas": {
@@ -280,6 +281,49 @@
             }
           },
           "dataHora": {
+            "db": {
+              "type": "datetime",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
+        },
+        "db": {}
+      },
+      "orientacoesGerais": {
+        "columns": {
+          "id": {
+            "db": {
+              "type": "increments",
+              "primary": true,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "conteudo": {
+            "db": {
+              "type": "string",
+              "maxLength": 255,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "modificadaPor": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "userID",
+              "inTable": "users",
+              "referenceType": "integer",
+              "onUpdate": "CASCADE",
+              "onDelete": "CASCADE"
+            }
+          },
+          "modificadaEm": {
             "db": {
               "type": "datetime",
               "primary": false,
