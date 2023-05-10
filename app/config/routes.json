@@ -78,6 +78,14 @@
       "path": "/chat",
       "page": "chat",
       "layout": "main"
+    },
+    {
+      "path": "/perfil",
+      "page": "perfil",
+      "layout": "main",
+      "data": {
+        "Title": "Perfil"
+      }
     }
   ],
   "layouts": {

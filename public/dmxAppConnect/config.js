@@ -291,7 +291,7 @@ dmx.config({
       }
     ]
   },
-  "index": {
+  "perfil": {
     "repeat1": {
       "meta": [
         {

@@ -6,13 +6,44 @@
     "connection": "mydb",
     "sql": {
       "type": "select",
-      "columns": [],
+      "columns": [
+        {
+          "table": "orientacoesGerais",
+          "column": "*"
+        },
+        {
+          "table": "users",
+          "column": "firstname"
+        }
+      ],
       "params": [],
       "table": {
         "name": "orientacoesGerais"
       },
-      "joins": [],
-      "query": "select * from `orientacoesGerais`",
+      "joins": [
+        {
+          "table": "users",
+          "column": "*",
+          "type": "INNER",
+          "clauses": {
+            "condition": "AND",
+            "rules": [
+              {
+                "table": "users",
+                "column": "userID",
+                "operator": "equal",
+                "operation": "=",
+                "value": {
+                  "table": "orientacoesGerais",
+                  "column": "modificadaPor"
+                }
+              }
+            ]
+          },
+          "primary": "userID"
+        }
+      ],
+      "query": "select `orientacoesGerais`.*, `users`.`firstname` from `orientacoesGerais` inner join `users` on `users`.`userID` = `orientacoesGerais`.`modificadaPor`",
       "primary": "id"
     }
   },
@@ -27,12 +58,16 @@
       "name": "conteudo"
     },
     {
+      "type": "number",
+      "name": "modificadaPor"
+    },
+    {
       "type": "datetime",
       "name": "modificadaEm"
     },
     {
-      "type": "number",
-      "name": "modificadaPor"
+      "type": "text",
+      "name": "firstname"
     }
   ],
   "outputType": "object"

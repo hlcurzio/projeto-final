@@ -7,14 +7,17 @@
 <div class="container" style="">
     <div class="row mb-5">
         <div class="col mb-5">
-            <div class="d-flex justify-content-between mt-5">
-                <h1 class="text-start fw-light lead mb-3">Orientações gerais</h1><button id="btn_modalOG" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalOG"><i class="fas fa-edit"></i></button>
+            <div class="d-flex justify-content-between mt-5 mb-2 pt-0 pb-0">
+                <h1 class="text-start fw-light lead align-self-center mt-0 mb-0">Orientações gerais</h1>
+
+                <button id="btn_modalOG" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalOG"><i class="fas fa-edit"></i></button>
             </div>
 
 
 
 
             <p class="fw-lighter" style="text-align: justify;" dmx-html="sc_getOrientacoesGerais.data.query.conteudo"></p>
+            <p class="fw-lighter mt-3 small" style="text-align: justify;">Última modificação feita por {{sc_getOrientacoesGerais.data.query.firstname}} em {{sc_getOrientacoesGerais.data.query.modificadaEm}}</p>
 
 
 
@@ -22,7 +25,7 @@
     </div>
 </div>
 <div class="modal" id="modalOG" is="dmx-bs5-modal" tabindex="-1">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Atualizar orientações gerais</h5>
@@ -31,7 +34,7 @@
             <div class="modal-body">
                 <form id="form_updateOrientacoesGerais" method="post" is="dmx-serverconnect-form" action="/api/orientacoesGerais/updateOrientacoesGerais" dmx-on:success="mainNotifications.success('Alterações feitas com sucesso!');sc_getOrientacoesGerais.load({});modalOG.hide()" dmx-on:error="mainNotifications.danger('Erro!')">
                     <input id="input_modificadaPor" name="modificadaPor" type="hidden" class="form-control" dmx-bind:value="scUserLoggedin.data.identity">
-                    <textarea id="editor_conteudo" name="conteudo" is="dmx-summernote" dmx-bind:toolbar="[['style',['style']],['font',['bold','underline','clear']],['fontname',['fontname']],['color',['color']],['para',['ul','ol','paragraph']],['table',['table']],['insert',['link','picture','video']],['view',['fullscreen','codeview','help']]]" lang="pt-BR" min-height="250" dmx-bind:value="sc_getOrientacoesGerais.data.query.conteudo"></textarea>
+                    <textarea id="editor_conteudo" name="conteudo" is="dmx-summernote" dmx-bind:toolbar="[['style',['style']],['font',['bold','underline','clear']],['fontname',['fontname']],['color',['color']],['para',['ul','ol','paragraph']],['table',['table']],['insert',['link','picture','video']]]" lang="pt-BR" min-height="250" dmx-bind:value="sc_getOrientacoesGerais.data.query.conteudo"></textarea>
                 </form>
 
             </div>
