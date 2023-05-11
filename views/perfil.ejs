@@ -1,10 +1,30 @@
-<!-- Wappler include head-page="layouts/main" is="dmx-app" id="perfil" appconnect="local" fontawesome_5="cdn" components="{dmxBootbox5:{},dmxTyped:{},dmxBootstrap5Modal:{},dmxSummernote:{}}" jquery_slim_35="cdn" bootstrap4="cdn" -->
+<!-- Wappler include head-page="layouts/main" is="dmx-app" id="perfil" appconnect="local" fontawesome_5="cdn" components="{dmxBootbox5:{},dmxTyped:{},dmxBootstrap5Modal:{},dmxSummernote:{},dmxBootstrap5TableGenerator:{}}" jquery_slim_35="cdn" bootstrap5="local" -->
 
 <meta name="ac:route" content="/perfil">
 <div class="container" style="">
     <div class="row mb-5">
         <div class="col mb-5">
             <h1 class="text-start fw-light lead align-self-center mt-5 mb-0">Perfil</h1>
+            <table class="table">
+                <tbody dmx-generator="bs5table" dmx-populate="scUserLoggedin.data.query">
+                    <tr>
+                        <th>Nome</th>
+                        <td dmx-text="scUserLoggedin.data.query.firstname" class="text-end"></td>
+                    </tr>
+                    <tr>
+                        <th>Sobrenome</th>
+                        <td dmx-text="scUserLoggedin.data.query.lastname" class="text-end"></td>
+                    </tr>
+                    <tr>
+                        <th>E-mail</th>
+                        <td dmx-text="scUserLoggedin.data.query.email" class="text-end"></td>
+                    </tr>
+                    <tr>
+                        <th>Admin</th>
+                        <td dmx-text="scUserLoggedin.data.query.admin" class="text-end"></td>
+                    </tr>
+                </tbody>
+            </table>
 
 
 

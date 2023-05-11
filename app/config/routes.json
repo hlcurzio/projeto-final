@@ -32,15 +32,6 @@
       "layout": "main"
     },
     {
-      "path": "/ferramentas",
-      "page": "ferramentas",
-      "layout": "main",
-      "data": {
-        "Title": "Ferramentas"
-      },
-      "exec": "/api/ferramentas/read"
-    },
-    {
       "path": "/categorias",
       "page": "categorias",
       "layout": "main",
@@ -55,15 +46,6 @@
       "exec": "/api/locais/read",
       "data": {
         "Title": "Locais"
-      }
-    },
-    {
-      "path": "/usuarios",
-      "page": "usuarios",
-      "layout": "main",
-      "exec": "/api/usuarios/read",
-      "data": {
-        "Title": "Usuários"
       }
     },
     {
@@ -85,6 +67,23 @@
       "layout": "main",
       "data": {
         "Title": "Perfil"
+      }
+    },
+    {
+      "path": "/admin/usuarios",
+      "page": "admin/admin-usuarios",
+      "layout": "main",
+      "exec": "/api/usuarios/read",
+      "data": {
+        "Title": "Admin | Usuários"
+      }
+    },
+    {
+      "path": "/admin/disciplinas",
+      "page": "admin/admin-disciplinas",
+      "layout": "main",
+      "data": {
+        "Title": "Admin | Disciplinas"
       }
     }
   ],

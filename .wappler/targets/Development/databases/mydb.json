@@ -68,7 +68,6 @@
         },
         "db": {},
         "refs": {
-          "ferramentas": "criada_por",
           "mensagens": "destinatarioID",
           "orientacoesGerais": "modificadaPor"
         }
@@ -90,84 +89,6 @@
               "primary": false,
               "unique": false,
               "nullable": true
-            }
-          }
-        },
-        "db": {},
-        "refs": {
-          "ferramentas": "categoria"
-        }
-      },
-      "ferramentas": {
-        "columns": {
-          "ferramentaID": {
-            "db": {
-              "type": "increments",
-              "primary": true,
-              "unique": false,
-              "nullable": false
-            }
-          },
-          "nome": {
-            "db": {
-              "type": "string",
-              "maxLength": 255,
-              "primary": false,
-              "unique": false,
-              "nullable": true
-            }
-          },
-          "descricao": {
-            "db": {
-              "type": "string",
-              "maxLength": 255,
-              "primary": false,
-              "unique": false,
-              "nullable": true
-            }
-          },
-          "link": {
-            "db": {
-              "type": "string",
-              "maxLength": 255,
-              "primary": false,
-              "unique": false,
-              "nullable": true
-            }
-          },
-          "imagem": {
-            "db": {
-              "type": "string",
-              "maxLength": 255,
-              "primary": false,
-              "unique": false,
-              "nullable": true
-            }
-          },
-          "criada_por": {
-            "db": {
-              "type": "reference",
-              "primary": false,
-              "unique": false,
-              "nullable": true,
-              "references": "userID",
-              "inTable": "users",
-              "referenceType": "integer",
-              "onUpdate": "CASCADE",
-              "onDelete": "CASCADE"
-            }
-          },
-          "categoria": {
-            "db": {
-              "type": "reference",
-              "primary": false,
-              "unique": false,
-              "nullable": true,
-              "references": "id",
-              "inTable": "catDeFerramentas",
-              "referenceType": "integer",
-              "onUpdate": "CASCADE",
-              "onDelete": "SET NULL"
             }
           }
         },

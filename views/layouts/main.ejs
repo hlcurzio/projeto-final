@@ -99,12 +99,6 @@
                         <div class="collapse navbar-collapse justify-content-end" id="navbar1_collapse">
                             <div class="navbar-nav">
                                 <a class="nav-item nav-link" dmx-on:click.prevent="mainBrowser.goto('/',true,'Página inicial')">Página inicial</a>
-                                <div class="nav-item dropdown" dmx-show="scUserLoggedin.data.identity"><a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdown1" role="button" aria-haspopup="true" aria-expanded="false">Ferramentas</a>
-                                    <div class="dropdown-menu" aria-labelledby="dropdown1">
-                                        <a class="dropdown-item" dmx-on:click.prevent="mainBrowser.goto('/ferramentas',true,'Ferramentas')" href="/ferramentas" internal="true">Todas as ferramentas</a><a class="dropdown-item" href="/categorias" internal="true" dmx-on:click.prevent="mainBrowser.goto('/categorias',true,'Categorias')">Categorias</a>
-
-                                    </div>
-                                </div>
                                 <div class="nav-item dropdown" dmx-show="scUserLoggedin.data.identity"><a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdown2" role="button" aria-haspopup="true" aria-expanded="false">Locais</a>
                                     <div class="dropdown-menu" aria-labelledby="dropdown2">
                                         <a class="dropdown-item" dmx-on:click.prevent="mainBrowser.goto('/locais',true,'Locais')" href="/locais" internal="true">Todos os locais</a><a class="dropdown-item" href="/categorias-de-ferramentas" internal="true">Tipos</a>
@@ -118,9 +112,15 @@
                                     </div>
                                 </div>
 
-                                <a class="nav-item nav-link" dmx-on:click.prevent="mainBrowser.goto('/usuarios',true,'Usuários')" href="/usuarios" internal="true" dmx-show="(scUserLoggedin.data.query.admin == 1)">Usuários</a>
+
                                 <a class="nav-item nav-link" dmx-on:click.prevent="mainBrowser.goto('/chat',true,'Chat')" href="/chat" internal="true">Chat</a>
                                 <a class="nav-item nav-link" dmx-on:click.prevent="mainBrowser.goto('/sobre',true,'Sobre')" href="/sobre" internal="true">Sobre</a>
+                                <div class="nav-item dropdown" dmx-show="scUserLoggedin.data.query.admin"><a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdown1" role="button" aria-haspopup="true" aria-expanded="false">Admin</a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdown3">
+                                        <a class="dropdown-item" dmx-on:click.prevent="mainBrowser.goto('/admin/usuarios',true,'Admin | Usuários')" href="/admin/usuarios" internal="true">Usuários</a><a class="dropdown-item" href="/admin/disciplinas" internal="true" dmx-on:click.prevent="mainBrowser.goto('/admin/disciplinas',true,'Admin | Disciplinas')">Disciplinas</a>
+
+                                    </div>
+                                </div>
                                 <div class="nav-item dropdown" dmx-show="scUserLoggedin.data.identity"><a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdown4" role="button" aria-haspopup="true" aria-expanded="false">{{scUserLoggedin.data.query.firstname}}</a>
                                     <div class="dropdown-menu" aria-labelledby="dropdown4">
                                         <a class="dropdown-item" href="/perfil" internal="true" dmx-on:click.prevent="mainBrowser.goto('/perfil',true,'Perfil')">Perfil</a><a class="dropdown-item" dmx-on:click.prevent="modalConfirmacaoLogout.show()" href="/entrar">Sair</a>

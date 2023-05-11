@@ -1,0 +1,96 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "usuarioid"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "query_getUsuarioById",
+      "module": "dbconnector",
+      "action": "single",
+      "options": {
+        "connection": "mydb",
+        "sql": {
+          "type": "select",
+          "columns": [],
+          "params": [
+            {
+              "operator": "equal",
+              "type": "expression",
+              "name": ":P1",
+              "value": "{{$_GET.usuarioid}}",
+              "test": ""
+            }
+          ],
+          "table": {
+            "name": "users"
+          },
+          "primary": "userID",
+          "joins": [],
+          "wheres": {
+            "condition": "AND",
+            "rules": [
+              {
+                "id": "users.userID",
+                "field": "users.userID",
+                "type": "double",
+                "operator": "equal",
+                "value": "{{$_GET.usuarioid}}",
+                "data": {
+                  "table": "users",
+                  "column": "userID",
+                  "type": "number",
+                  "columnObj": {
+                    "type": "increments",
+                    "primary": true,
+                    "unique": false,
+                    "nullable": false,
+                    "name": "userID"
+                  }
+                },
+                "operation": "=",
+                "table": "users"
+              }
+            ],
+            "conditional": null,
+            "valid": true
+          },
+          "query": "select * from `users` where `users`.`userID` = ?"
+        }
+      },
+      "output": true,
+      "meta": [
+        {
+          "type": "number",
+          "name": "userID"
+        },
+        {
+          "type": "text",
+          "name": "firstname"
+        },
+        {
+          "type": "text",
+          "name": "lastname"
+        },
+        {
+          "type": "text",
+          "name": "email"
+        },
+        {
+          "type": "text",
+          "name": "password"
+        },
+        {
+          "type": "boolean",
+          "sub": [],
+          "name": "admin"
+        }
+      ],
+      "outputType": "object"
+    }
+  }
+}
