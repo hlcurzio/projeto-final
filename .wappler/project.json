@@ -37,5 +37,6 @@
   "userUploadsFolder": "/public/uploads",
   "hostingType": "wappler",
   "projectLinksType": "site",
-  "extensions": []
+  "extensions": [],
+  "activeGitRemote": "github"
 }
