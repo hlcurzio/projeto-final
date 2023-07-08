@@ -1,0 +1,520 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ]
+  },
+  "exec": {
+    "steps": [
+      {
+        "name": "",
+        "module": "auth",
+        "action": "restrict",
+        "options": {
+          "provider": "security",
+          "loginUrl": "/entrar",
+          "forbiddenUrl": "/"
+        }
+      },
+      {
+        "name": "query_usuarioAtual",
+        "module": "dbconnector",
+        "action": "single",
+        "options": {
+          "connection": "db",
+          "sql": {
+            "type": "select",
+            "columns": [],
+            "params": [
+              {
+                "operator": "equal",
+                "type": "expression",
+                "name": ":P1",
+                "value": "{{identity}}",
+                "test": ""
+              }
+            ],
+            "table": {
+              "name": "users"
+            },
+            "primary": "userID",
+            "joins": [],
+            "wheres": {
+              "condition": "AND",
+              "rules": [
+                {
+                  "id": "users.userID",
+                  "field": "users.userID",
+                  "type": "double",
+                  "operator": "equal",
+                  "value": "{{identity}}",
+                  "data": {
+                    "table": "users",
+                    "column": "userID",
+                    "type": "number",
+                    "columnObj": {
+                      "type": "increments",
+                      "primary": true,
+                      "unique": false,
+                      "nullable": false,
+                      "name": "userID"
+                    }
+                  },
+                  "operation": "=",
+                  "table": "users"
+                }
+              ],
+              "conditional": null,
+              "valid": true
+            },
+            "query": "select * from `users` where `users`.`userID` = ?"
+          }
+        },
+        "output": true,
+        "meta": [
+          {
+            "type": "number",
+            "name": "userID"
+          },
+          {
+            "type": "text",
+            "name": "firstname"
+          },
+          {
+            "type": "text",
+            "name": "lastname"
+          },
+          {
+            "type": "text",
+            "name": "email"
+          },
+          {
+            "type": "text",
+            "name": "password"
+          },
+          {
+            "type": "boolean",
+            "name": "admin"
+          },
+          {
+            "type": "text",
+            "name": "cargo"
+          },
+          {
+            "type": "number",
+            "name": "tutorId"
+          },
+          {
+            "type": "number",
+            "name": "protutId"
+          }
+        ],
+        "outputType": "object"
+      },
+      {
+        "name": "query",
+        "module": "dbconnector",
+        "action": "select",
+        "options": {
+          "connection": "mydb",
+          "sql": {
+            "type": "SELECT",
+            "distinct": false,
+            "columns": [
+              {
+                "table": "eventos",
+                "column": "*",
+                "field": "eventos.*"
+              },
+              {
+                "table": "criadoPor",
+                "column": "firstname",
+                "alias": "criadoPor_firstname"
+              },
+              {
+                "table": "criadoPor",
+                "column": "lastname",
+                "alias": "criadoPor_lastname"
+              },
+              {
+                "table": "modificadoPor",
+                "column": "firstname",
+                "alias": "modificadoPor_firstname"
+              },
+              {
+                "table": "modificadoPor",
+                "column": "lastname",
+                "alias": "modificadoPor_lastname"
+              },
+              {
+                "table": "atribuidoA",
+                "column": "firstname",
+                "alias": "atribuidoA_firstname"
+              },
+              {
+                "table": "atribuidoA",
+                "column": "lastname",
+                "alias": "atribuidoA_lastname"
+              },
+              {
+                "table": "direcionadoA",
+                "column": "firstname",
+                "alias": "direcionadoA_firstname"
+              },
+              {
+                "table": "direcionadoA",
+                "column": "lastname",
+                "alias": "direcionadoA_lastname"
+              }
+            ],
+            "table": {
+              "name": "eventos"
+            },
+            "joins": [
+              {
+                "table": "users",
+                "column": "*",
+                "alias": "criadoPor",
+                "type": "LEFT",
+                "clauses": {
+                  "condition": "AND",
+                  "rules": [
+                    {
+                      "table": "criadoPor",
+                      "column": "userID",
+                      "field": "criadoPor.userID",
+                      "operation": "=",
+                      "operator": "equal",
+                      "value": {
+                        "table": "eventos",
+                        "column": "criadoPor",
+                        "field": "eventos.criadoPor"
+                      }
+                    }
+                  ]
+                },
+                "primary": "userID"
+              },
+              {
+                "table": "users",
+                "column": "*",
+                "alias": "modificadoPor",
+                "type": "LEFT",
+                "clauses": {
+                  "condition": "AND",
+                  "rules": [
+                    {
+                      "table": "modificadoPor",
+                      "column": "userID",
+                      "operator": "equal",
+                      "operation": "=",
+                      "value": {
+                        "table": "eventos",
+                        "column": "modificadoPor"
+                      }
+                    }
+                  ]
+                },
+                "primary": "userID"
+              },
+              {
+                "table": "users",
+                "column": "*",
+                "alias": "atribuidoA",
+                "type": "LEFT",
+                "clauses": {
+                  "condition": "AND",
+                  "rules": [
+                    {
+                      "table": "atribuidoA",
+                      "column": "userID",
+                      "operator": "equal",
+                      "operation": "=",
+                      "value": {
+                        "table": "eventos",
+                        "column": "atribuidoA"
+                      }
+                    }
+                  ]
+                },
+                "primary": "userID"
+              },
+              {
+                "table": "users",
+                "column": "*",
+                "alias": "direcionadoA",
+                "type": "LEFT",
+                "clauses": {
+                  "condition": "AND",
+                  "rules": [
+                    {
+                      "table": "direcionadoA",
+                      "column": "userID",
+                      "operator": "equal",
+                      "operation": "=",
+                      "value": {
+                        "table": "eventos",
+                        "column": "direcionadoA"
+                      }
+                    }
+                  ]
+                },
+                "primary": "userID"
+              }
+            ],
+            "orders": [],
+            "params": [
+              {
+                "operator": "equal",
+                "type": "expression",
+                "name": ":P1",
+                "value": "{{identity}}",
+                "test": ""
+              },
+              {
+                "operator": "equal",
+                "type": "expression",
+                "name": ":P2",
+                "value": "{{identity}}",
+                "test": ""
+              },
+              {
+                "operator": "equal",
+                "type": "expression",
+                "name": ":P3",
+                "value": "{{identity}}",
+                "test": ""
+              },
+              {
+                "operator": "equal",
+                "type": "expression",
+                "name": ":P4",
+                "value": "{{identity}}",
+                "test": ""
+              }
+            ],
+            "primary": "eventoId",
+            "query": "select `eventos`.*, `criadoPor`.`firstname` as `criadoPor_firstname`, `criadoPor`.`lastname` as `criadoPor_lastname`, `modificadoPor`.`firstname` as `modificadoPor_firstname`, `modificadoPor`.`lastname` as `modificadoPor_lastname`, `atribuidoA`.`firstname` as `atribuidoA_firstname`, `atribuidoA`.`lastname` as `atribuidoA_lastname`, `direcionadoA`.`firstname` as `direcionadoA_firstname`, `direcionadoA`.`lastname` as `direcionadoA_lastname` from `eventos` left join `users` as `criadoPor` on `criadoPor`.`userID` = `eventos`.`criadoPor` left join `users` as `modificadoPor` on `modificadoPor`.`userID` = `eventos`.`modificadoPor` left join `users` as `atribuidoA` on `atribuidoA`.`userID` = `eventos`.`atribuidoA` left join `users` as `direcionadoA` on `direcionadoA`.`userID` = `eventos`.`direcionadoA` where `eventos`.`criadoPor` = ? or `eventos`.`atribuidoA` = ? or `eventos`.`direcionadoA` = ? or `eventos`.`modificadoPor` = ? or (`eventos`.`eventoId` is not null)",
+            "wheres": {
+              "condition": "OR",
+              "rules": [
+                {
+                  "id": "eventos.criadoPor",
+                  "field": "eventos.criadoPor",
+                  "type": "double",
+                  "operator": "equal",
+                  "value": "{{identity}}",
+                  "data": {
+                    "table": "eventos",
+                    "column": "criadoPor",
+                    "type": "number",
+                    "columnObj": {
+                      "type": "reference",
+                      "primary": false,
+                      "unique": false,
+                      "nullable": true,
+                      "references": "userID",
+                      "inTable": "users",
+                      "referenceType": "integer",
+                      "onUpdate": "CASCADE",
+                      "onDelete": "CASCADE",
+                      "name": "criadoPor"
+                    }
+                  },
+                  "operation": "="
+                },
+                {
+                  "id": "eventos.atribuidoA",
+                  "field": "eventos.atribuidoA",
+                  "type": "double",
+                  "operator": "equal",
+                  "value": "{{identity}}",
+                  "data": {
+                    "table": "eventos",
+                    "column": "atribuidoA",
+                    "type": "number",
+                    "columnObj": {
+                      "type": "reference",
+                      "primary": false,
+                      "unique": false,
+                      "nullable": true,
+                      "references": "userID",
+                      "inTable": "users",
+                      "referenceType": "integer",
+                      "onUpdate": "CASCADE",
+                      "onDelete": "CASCADE",
+                      "name": "atribuidoA"
+                    }
+                  },
+                  "operation": "="
+                },
+                {
+                  "id": "eventos.direcionadoA",
+                  "field": "eventos.direcionadoA",
+                  "type": "double",
+                  "operator": "equal",
+                  "value": "{{identity}}",
+                  "data": {
+                    "table": "eventos",
+                    "column": "direcionadoA",
+                    "type": "number",
+                    "columnObj": {
+                      "type": "reference",
+                      "primary": false,
+                      "unique": false,
+                      "nullable": true,
+                      "references": "userID",
+                      "inTable": "users",
+                      "referenceType": "integer",
+                      "onUpdate": "CASCADE",
+                      "onDelete": "CASCADE",
+                      "name": "direcionadoA"
+                    }
+                  },
+                  "operation": "="
+                },
+                {
+                  "id": "eventos.modificadoPor",
+                  "field": "eventos.modificadoPor",
+                  "type": "double",
+                  "operator": "equal",
+                  "value": "{{identity}}",
+                  "data": {
+                    "table": "eventos",
+                    "column": "modificadoPor",
+                    "type": "number",
+                    "columnObj": {
+                      "type": "reference",
+                      "primary": false,
+                      "unique": false,
+                      "nullable": true,
+                      "references": "userID",
+                      "inTable": "users",
+                      "referenceType": "integer",
+                      "onUpdate": "CASCADE",
+                      "onDelete": "CASCADE",
+                      "name": "modificadoPor"
+                    }
+                  },
+                  "operation": "="
+                },
+                {
+                  "condition": "AND",
+                  "rules": [
+                    {
+                      "id": "eventos.eventoId",
+                      "field": "eventos.eventoId",
+                      "type": "double",
+                      "operator": "is_not_null",
+                      "value": null,
+                      "data": {
+                        "table": "eventos",
+                        "column": "eventoId",
+                        "type": "number",
+                        "columnObj": {
+                          "type": "increments",
+                          "primary": true,
+                          "unique": false,
+                          "nullable": false,
+                          "name": "eventoId"
+                        }
+                      },
+                      "operation": "IS NOT NULL"
+                    }
+                  ],
+                  "conditional": "{{query_usuarioAtual.cargo=='coord'}}"
+                }
+              ],
+              "conditional": null,
+              "valid": true
+            }
+          }
+        },
+        "output": true,
+        "meta": [
+          {
+            "type": "number",
+            "name": "eventoId"
+          },
+          {
+            "type": "text",
+            "name": "nome"
+          },
+          {
+            "type": "datetime",
+            "name": "inicio"
+          },
+          {
+            "type": "datetime",
+            "name": "fim"
+          },
+          {
+            "type": "boolean",
+            "name": "dia_inteiro"
+          },
+          {
+            "type": "text",
+            "name": "descricao"
+          },
+          {
+            "type": "number",
+            "name": "criadoPor"
+          },
+          {
+            "type": "number",
+            "name": "atribuidoA"
+          },
+          {
+            "type": "number",
+            "name": "direcionadoA"
+          },
+          {
+            "type": "number",
+            "name": "modificadoPor"
+          },
+          {
+            "type": "text",
+            "name": "criadoPor_firstname"
+          },
+          {
+            "type": "text",
+            "name": "criadoPor_lastname"
+          },
+          {
+            "type": "text",
+            "name": "modificadoPor_firstname"
+          },
+          {
+            "type": "text",
+            "name": "modificadoPor_lastname"
+          },
+          {
+            "type": "text",
+            "name": "atribuidoA_firstname"
+          },
+          {
+            "type": "text",
+            "name": "atribuidoA_lastname"
+          },
+          {
+            "type": "text",
+            "name": "direcionadoA_firstname"
+          },
+          {
+            "type": "text",
+            "name": "direcionadoA_lastname"
+          }
+        ],
+        "outputType": "array",
+        "type": "dbconnector_select"
+      }
+    ]
+  }
+}

@@ -1,0 +1,196 @@
+<!-- Wappler include head-page="layouts/main" fontawesome_5="cdn" is="dmx-app" id="acompanhamento" appConnect="local" components="{dmxCalendar:{},dmxBootstrap5Modal:{},dmxDataTraversal:{},dmxFormatter:{},dmxBootstrap5TableGenerator:{},dmxBootbox5:{},dmxDatePicker:{}}" bootstrap5="local" jquery_slim_35="cdn" moment_2="cdn" -->
+<dmx-serverconnect id="sc_getUsers" url="/api/eventos/getUsers"></dmx-serverconnect>
+
+
+<dmx-serverconnect id="sc_eventos" url="/api/eventos/getEventos"></dmx-serverconnect>
+<form id="form_updateDataEvento" method="post" is="dmx-serverconnect-form" action="/api/eventos/updateDataEvento" dmx-on:success="mainNotifications.success('Alterado com sucesso!');sc_eventos.load({})" dmx-show="">
+    <input id="ipt_eventoId" name="eventoId" type="text" class="form-control">
+    <input id="date_inicio" name="inicio" is="dmx-date-picker" type="date">
+    <input id="date_fim" name="fim" is="dmx-date-picker" type="date">
+</form>
+<dmx-data-detail id="dataDetail_evento" dmx-bind:data="sc_eventos.data.query" key="eventoId">
+    <div class="modal" id="modal_detalharEvento" is="dmx-bs5-modal" tabindex="-1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" dmx-text="dataDetail_evento.data.nome">{{dataDetail_evento.data.nome}}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tbody dmx-generator="bs5table" dmx-populate="dataDetail_evento.data">
+                                <tr>
+                                    <th>Inicio</th>
+                                    <td dmx-text="dataDetail_evento.data.inicio.formatDate('dd/MM/yyyy')"></td>
+                                </tr>
+                                <tr>
+                                    <th>Fim</th>
+                                    <td dmx-text="dataDetail_evento.data.fim.formatDate('dd/MM/yyyy')"></td>
+                                </tr>
+                                <tr>
+                                    <th>Descrição</th>
+                                    <td>
+                                        <p>{{dataDetail_evento.data.descricao}}</p>
+                                    </td>
+                                </tr>
+                                <tr dmx-show="dataDetail_evento.data.atribuidoA_firstname">
+                                    <th>Atribuida a</th>
+                                    <td>
+                                        <p>{{dataDetail_evento.data.atribuidoA_firstname}} {{dataDetail_evento.data.atribuidoA_lastname}}</p>
+                                    </td>
+                                </tr>
+                                <tr dmx-show="dataDetail_evento.data.direcionadoA">
+                                    <th style="min-width: 150px;">Direcionada a</th>
+                                    <td>
+                                        <p>{{dataDetail_evento.data.direcionadoA_firstname}} {{dataDetail_evento.data.direcionadoA_lastname}}</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Criada por</th>
+                                    <td>
+                                        <p>{{dataDetail_evento.data.criadoPor_firstname}} {{dataDetail_evento.data.criadoPor_lastname}}</p>
+                                    </td>
+                                </tr>
+                                <tr dmx-show="dataDetail_evento.data.modificadoPor">
+                                    <th style="min-width: 150px;">Modificada por</th>
+                                    <td>
+                                        <p>{{dataDetail_evento.data.modificadoPor_firstname}} {{dataDetail_evento.data.modificadoPor_lastname}}</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-sm btn-outline-primary" data-bs-dismiss="modal" data-bs-target="#modal_adicionarEvento" dmx-on:click.prevent="modal_detalharEvento.hide();modal_editarEvento.show()"><i class="fas fa-edit"></i></button>
+                    <button type="button" class="btn btn-danger btn-sm" dmx-on:click="run({'bootbox.confirm':{message:'Tem certeza que deseja deletar este item?',title:'Esta ação é irreversível',buttons:{confirm:{label:'Detelar',className:'btn-danger'},cancel:{label:'Cancelar',className:'btn-secondary'}},then:{steps:[{serverConnect:{url:'/api/eventos/deleteEvento',site:'projeto-final',params:{id:`dataDetail_evento.data.eventoId`},name:'sc',outputType:'object'}},{run:{action:`mainNotifications.info(\'Item deletado com sucesso!\');modal_detalharEvento.hide();sc_eventos.load({})`,outputType:'text'}}]}}})"><i class="fas fa-trash"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="modal_editarEvento" is="dmx-bs5-modal" tabindex="-1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Editar tarefa</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form is="dmx-serverconnect-form" id="scform_updateEvento" method="post" action="/api/eventos/updateEvento" dmx-generator="bootstrap5" dmx-form-type="vertical" dmx-populate="dataDetail_evento.data" dmx-on:success="mainNotifications.success('Edição feita com sucesso!');sc_eventos.load({});modal_editarEvento.hide()">
+                        <input id="inp_modificadoPor" name="modificadoPor" type="hidden" class="form-control" dmx-bind:value="scUserLoggedin.data.identity">
+                        <input type="hidden" name="eventoId" id="inp_eventoId" dmx-bind:value="dataDetail_evento.data.eventoId">
+                        <div class="form-group mb-3">
+                            <label for="inp_nome">Nome</label>
+                            <input type="text" class="form-control" id="inp_nome" name="nome" dmx-bind:value="dataDetail_evento.data.nome" aria-describedby="inp_nome_help" placeholder="Enter Nome">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="inp_descricao">Descrição</label>
+                            <textarea id="inp_descricao" name="descricao" dmx-bind:value="dataDetail_evento.data.descricao" class="form-control"></textarea>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="select_atribuidoA" class="form-label">Atribuída a</label>
+                            <select id="select_atribuidoA" class="form-select" dmx-bind:options="sc_getUsers.data.getUsers" optiontext="firstname+' '+lastname" optionvalue="userID" dmx-bind:value="dataDetail_evento.data.atribuidoA" name="atribuidoA">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="select_direcionadoA" class="form-label">Direcionada a</label>
+                            <select id="select_direcionadoA" class="form-select" dmx-bind:options="sc_getUsers.data.getUsers" optiontext="firstname+' '+lastname" optionvalue="userID" dmx-bind:value="dataDetail_evento.data.direcionadoA" name="direcionadoA">
+                                <option value=""></option>
+                            </select>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="inp_inicio">Início</label>
+                            <input type="date" class="form-control" id="inp_inicio" name="inicio" dmx-bind:value="dataDetail_evento.data.inicio" aria-describedby="inp_inicio_help" placeholder="Enter Inicio">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="inp_fim">Fim</label>
+                            <input type="date" class="form-control" id="inp_fim" name="fim" dmx-bind:value="dataDetail_evento.data.fim" aria-describedby="inp_fim_help" placeholder="Enter Fim">
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" dmx-on:click="scform_updateEvento.submit()">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</dmx-data-detail>
+
+
+<div class="modal" id="modal_adicionarEvento" is="dmx-bs5-modal" tabindex="-1" dmx-on:hide-bs-modal="scform_createEvento.reset()">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Adicionar tarefa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form is="dmx-serverconnect-form" id="scform_createEvento" method="post" action="/api/eventos/createEvento" dmx-generator="bootstrap5" dmx-form-type="vertical" dmx-on:success="mainNotifications.success('Evento adicionado!');sc_eventos.load({});modal_adicionarEvento.hide()">
+
+                    <input type="hidden" class="form-control" id="input_criadoPor" name="criadoPor" aria-describedby="input1_help" dmx-bind:value="scUserLoggedin.data.identity">
+                    <div class="form-group mb-3">
+                        <label for="inp_nome">Nome</label>
+                        <input type="text" class="form-control" id="inp_nome" name="nome" aria-describedby="inp_nome_help">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="inp_descricao">Descrição</label>
+                        <textarea id="text_descricao" class="form-control" name="descricao"></textarea>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="select_atribuidoA" class="form-label">Atribuida a (executor da tarefa)</label>
+                        <select id="select_atribuidoA" class="form-select" name="atribuidoA" optionvalue="userID" optiontext="firstname+' '+lastname" dmx-bind:options="sc_getUsers.data.getUsers">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="select_direcionadoA" class="form-label">Direcionada a (beneficiário da tarefa)</label>
+                        <select id="select_direcionadoA" class="form-select" name="direcionadoA" optionvalue="userID" optiontext="firstname+' '+lastname" dmx-bind:options="sc_getUsers.data.getUsers">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="inp_inicio">Inicio</label>
+                        <input type="date" class="form-control" id="inp_inicio" name="inicio" aria-describedby="inp_inicio_help" placeholder="Enter Inicio">
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="inp_fim">Fim</label>
+                        <input type="date" class="form-control" id="inp_fim" name="fim" aria-describedby="inp_fim_help" placeholder="Enter Fim">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" dmx-on:click="scform_createEvento.submit()">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container text-center mt-5 mb-5" style="">
+
+    <div class="row mb-3">
+        <div class="col align-self-center">
+            <div class="d-flex flex-wrap justify-content-between align-items-center">
+
+                <h1 class="lead">Acompanhamento de tarefas</h1>
+                <button id="btn_adicionar" class="btn btn-primary ms-3" data-bs-target="#modal_adicionarEvento" data-bs-toggle="modal">Adicionar tarefa</button>
+
+            </div>
+        </div>
+    </div>
+    <div class="d-flex justify-content-xxl-center pb-5">
+        <dmx-calendar id="calendar_acompanhamento" locale="pt-br" business-hours="true" editable="true" selectable="true" dmx-on:eventclick="dataDetail_evento.select($event.event.id.toNumber());dataDetail_evento.modal_detalharEvento.show()" style="max-width: 900px;" dmx-on:select="modal_adicionarEvento.scform_createEvento.inp_inicio.setValue($event.start);modal_adicionarEvento.scform_createEvento.inp_fim.setValue($event.end.addDays(-1).formatDate('yyyy-MM-dd'))" dmx-on:eventdrop="form_updateDataEvento.ipt_eventoId.setValue($event.event.id);form_updateDataEvento.date_inicio.setValue($event.event.start.formatDate('yyyy-MM-dd'));form_updateDataEvento.date_fim.setValue($event.event.end.addDays(-1).formatDate('yyyy-MM-dd'));form_updateDataEvento.submit()" theme="bootstrap">
+            <dmx-calendar-source id="source_eventos" dmx-bind:events="sc_eventos.data.query" event-title="nome" event-start="inicio" event-end="fim.addDays(1)" event-all-day="dia_inteiro" event-id="eventoId"></dmx-calendar-source>
+        </dmx-calendar>
+    </div>
+
+
+</div>
+<meta name="ac:route" content="/acompanhamento">

@@ -60,28 +60,28 @@
               "type": "expression",
               "name": ":P1",
               "value": "{{$_GET.destinatarioid}}",
-              "test": "8"
+              "test": "25"
             },
             {
               "operator": "equal",
               "type": "expression",
               "name": ":P2",
               "value": "{{$_GET.remetenteid}}",
-              "test": "2"
+              "test": "3"
             },
             {
               "operator": "equal",
               "type": "expression",
               "name": ":P3",
               "value": "{{$_GET.remetenteid}}",
-              "test": "2"
+              "test": "3"
             },
             {
               "operator": "equal",
               "type": "expression",
               "name": ":P4",
               "value": "{{$_GET.destinatarioid}}",
-              "test": "8"
+              "test": "25"
             }
           ],
           "table": {
@@ -139,7 +139,8 @@
             {
               "table": "mensagens",
               "column": "dataHora",
-              "direction": "ASC"
+              "direction": "ASC",
+              "recid": 1
             }
           ],
           "wheres": {

@@ -31,5 +31,13 @@
   "chat.ejs": {
     "layoutPage": "main",
     "description": ""
+  },
+  "minhas-disciplinas.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  },
+  "acompanhamento.ejs": {
+    "layoutPage": "main",
+    "description": ""
   }
 }

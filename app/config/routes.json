@@ -3,7 +3,10 @@
     {
       "path": "/",
       "page": "index",
-      "layout": "main"
+      "layout": "main",
+      "data": {
+        "Title": "Página inicial"
+      }
     },
     {
       "path": "/index",
@@ -24,28 +27,17 @@
     {
       "path": "/cadastrar",
       "page": "cadastrar",
-      "layout": "main"
+      "layout": "main",
+      "data": {
+        "Title": "Cadastrar"
+      }
     },
     {
       "path": "/redefinir-senha",
       "page": "redefinir-senha",
-      "layout": "main"
-    },
-    {
-      "path": "/categorias",
-      "page": "categorias",
       "layout": "main",
       "data": {
-        "Title": "Categorias"
-      }
-    },
-    {
-      "path": "/locais",
-      "page": "locais",
-      "layout": "main",
-      "exec": "/api/locais/read",
-      "data": {
-        "Title": "Locais"
+        "Title": "Redefinir senha"
       }
     },
     {
@@ -59,7 +51,11 @@
     {
       "path": "/chat",
       "page": "chat",
-      "layout": "main"
+      "layout": "main",
+      "exec": "/api/mensagens/getUsersForChat",
+      "data": {
+        "Title": "Chat"
+      }
     },
     {
       "path": "/perfil",
@@ -70,20 +66,21 @@
       }
     },
     {
+      "path": "/acompanhamento",
+      "page": "acompanhamento",
+      "layout": "main",
+      "exec": "/api/eventos/getEventos",
+      "data": {
+        "Title": "Acompanhamento"
+      }
+    },
+    {
       "path": "/admin/usuarios",
       "page": "admin/admin-usuarios",
       "layout": "main",
       "exec": "/api/usuarios/read",
       "data": {
         "Title": "Admin | Usuários"
-      }
-    },
-    {
-      "path": "/admin/disciplinas",
-      "page": "admin/admin-disciplinas",
-      "layout": "main",
-      "data": {
-        "Title": "Admin | Disciplinas"
       }
     }
   ],

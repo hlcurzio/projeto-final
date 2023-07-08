@@ -1,0 +1,90 @@
+{
+  "meta": {
+    "$_POST": [
+      {
+        "type": "datetime",
+        "name": "inicio"
+      },
+      {
+        "type": "datetime",
+        "name": "fim"
+      },
+      {
+        "type": "number",
+        "name": "eventoId"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "updateEvento",
+      "module": "dbupdater",
+      "action": "update",
+      "options": {
+        "connection": "mydb",
+        "sql": {
+          "type": "update",
+          "values": [
+            {
+              "table": "eventos",
+              "column": "inicio",
+              "type": "datetime",
+              "value": "{{$_POST.inicio}}"
+            },
+            {
+              "table": "eventos",
+              "column": "fim",
+              "type": "datetime",
+              "value": "{{$_POST.fim}}"
+            }
+          ],
+          "table": "eventos",
+          "wheres": {
+            "condition": "AND",
+            "rules": [
+              {
+                "id": "eventoId",
+                "type": "double",
+                "operator": "equal",
+                "value": "{{$_POST.eventoId}}",
+                "data": {
+                  "column": "eventoId"
+                },
+                "operation": "="
+              }
+            ]
+          },
+          "returning": "eventoId",
+          "query": "update `eventos` set `inicio` = ?, `fim` = ? where `eventoId` = ? returning `eventoId`",
+          "params": [
+            {
+              "name": ":P1",
+              "type": "expression",
+              "value": "{{$_POST.inicio}}",
+              "test": ""
+            },
+            {
+              "name": ":P2",
+              "type": "expression",
+              "value": "{{$_POST.fim}}",
+              "test": ""
+            },
+            {
+              "operator": "equal",
+              "type": "expression",
+              "name": ":P3",
+              "value": "{{$_POST.eventoId}}",
+              "test": ""
+            }
+          ]
+        }
+      },
+      "meta": [
+        {
+          "name": "affected",
+          "type": "number"
+        }
+      ]
+    }
+  }
+}

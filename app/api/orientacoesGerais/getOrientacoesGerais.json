@@ -24,7 +24,7 @@
         {
           "table": "users",
           "column": "*",
-          "type": "INNER",
+          "type": "LEFT",
           "clauses": {
             "condition": "AND",
             "rules": [
@@ -43,7 +43,7 @@
           "primary": "userID"
         }
       ],
-      "query": "select `orientacoesGerais`.*, `users`.`firstname` from `orientacoesGerais` inner join `users` on `users`.`userID` = `orientacoesGerais`.`modificadaPor`",
+      "query": "select `orientacoesGerais`.*, `users`.`firstname` from `orientacoesGerais` left join `users` on `users`.`userID` = `orientacoesGerais`.`modificadaPor`",
       "primary": "id"
     }
   },

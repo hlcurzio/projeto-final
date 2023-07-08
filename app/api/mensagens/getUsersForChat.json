@@ -1,0 +1,586 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ]
+  },
+  "exec": {
+    "steps": [
+      {
+        "name": "",
+        "module": "auth",
+        "action": "restrict",
+        "options": {
+          "provider": "security",
+          "loginUrl": "/entrar",
+          "forbiddenUrl": "/"
+        }
+      },
+      {
+        "name": "usuario_atual",
+        "module": "dbconnector",
+        "action": "single",
+        "options": {
+          "connection": "mydb",
+          "sql": {
+            "type": "select",
+            "columns": [],
+            "params": [
+              {
+                "operator": "equal",
+                "type": "expression",
+                "name": ":P1",
+                "value": "{{identity}}",
+                "test": ""
+              }
+            ],
+            "table": {
+              "name": "users"
+            },
+            "primary": "userID",
+            "joins": [],
+            "wheres": {
+              "condition": "AND",
+              "rules": [
+                {
+                  "id": "users.userID",
+                  "field": "users.userID",
+                  "type": "double",
+                  "operator": "equal",
+                  "value": "{{identity}}",
+                  "data": {
+                    "table": "users",
+                    "column": "userID",
+                    "type": "number",
+                    "columnObj": {
+                      "type": "increments",
+                      "primary": true,
+                      "unique": false,
+                      "nullable": false,
+                      "name": "userID"
+                    }
+                  },
+                  "operation": "="
+                }
+              ],
+              "conditional": null,
+              "valid": true
+            },
+            "query": "select * from `users` where `users`.`userID` = ?"
+          }
+        },
+        "output": false,
+        "meta": [
+          {
+            "type": "number",
+            "name": "userID"
+          },
+          {
+            "type": "text",
+            "name": "firstname"
+          },
+          {
+            "type": "text",
+            "name": "lastname"
+          },
+          {
+            "type": "text",
+            "name": "email"
+          },
+          {
+            "type": "text",
+            "name": "password"
+          },
+          {
+            "type": "text",
+            "name": "cargo"
+          },
+          {
+            "type": "number",
+            "name": "tutorId"
+          },
+          {
+            "type": "number",
+            "name": "protutId"
+          }
+        ],
+        "outputType": "object"
+      },
+      {
+        "name": "getProfDoAlunoDoTutor",
+        "module": "dbconnector",
+        "action": "single",
+        "options": {
+          "connection": "db",
+          "sql": {
+            "type": "select",
+            "columns": [
+              {
+                "table": "users",
+                "column": "protutId"
+              }
+            ],
+            "params": [
+              {
+                "operator": "equal",
+                "type": "expression",
+                "name": ":P1",
+                "value": "{{identity}}",
+                "test": ""
+              }
+            ],
+            "table": {
+              "name": "users"
+            },
+            "primary": "userID",
+            "joins": [],
+            "wheres": {
+              "condition": "AND",
+              "rules": [
+                {
+                  "id": "users.tutorId",
+                  "field": "users.tutorId",
+                  "type": "double",
+                  "operator": "equal",
+                  "value": "{{identity}}",
+                  "data": {
+                    "table": "users",
+                    "column": "tutorId",
+                    "type": "number",
+                    "columnObj": {
+                      "type": "reference",
+                      "primary": false,
+                      "unique": false,
+                      "nullable": true,
+                      "references": "userID",
+                      "inTable": "users",
+                      "referenceType": "integer",
+                      "onUpdate": "CASCADE",
+                      "onDelete": "CASCADE",
+                      "name": "tutorId"
+                    }
+                  },
+                  "operation": "=",
+                  "table": "users"
+                }
+              ],
+              "conditional": null,
+              "valid": true
+            },
+            "query": "select `protutId` from `users` where `users`.`tutorId` = ?"
+          }
+        },
+        "output": false,
+        "meta": [
+          {
+            "type": "number",
+            "name": "protutId"
+          }
+        ],
+        "outputType": "object"
+      },
+      {
+        "name": "getTutorDoAlunoDoProf",
+        "module": "dbconnector",
+        "action": "single",
+        "options": {
+          "connection": "db",
+          "sql": {
+            "type": "select",
+            "columns": [
+              {
+                "table": "users",
+                "column": "tutorId"
+              }
+            ],
+            "params": [
+              {
+                "operator": "equal",
+                "type": "expression",
+                "name": ":P1",
+                "value": "{{identity}}",
+                "test": ""
+              }
+            ],
+            "table": {
+              "name": "users"
+            },
+            "primary": "userID",
+            "joins": [],
+            "wheres": {
+              "condition": "AND",
+              "rules": [
+                {
+                  "id": "users.protutId",
+                  "field": "users.protutId",
+                  "type": "double",
+                  "operator": "equal",
+                  "value": "{{identity}}",
+                  "data": {
+                    "table": "users",
+                    "column": "protutId",
+                    "type": "number",
+                    "columnObj": {
+                      "type": "reference",
+                      "primary": false,
+                      "unique": false,
+                      "nullable": true,
+                      "references": "userID",
+                      "inTable": "users",
+                      "referenceType": "integer",
+                      "onUpdate": "CASCADE",
+                      "onDelete": "CASCADE",
+                      "name": "protutId"
+                    }
+                  },
+                  "operation": "="
+                }
+              ],
+              "conditional": null,
+              "valid": true
+            },
+            "query": "select `tutorId` from `users` where `users`.`protutId` = ?"
+          }
+        },
+        "output": false,
+        "meta": [
+          {
+            "type": "number",
+            "name": "tutorId"
+          }
+        ],
+        "outputType": "object"
+      },
+      {
+        "name": "getUsersForChat",
+        "module": "dbconnector",
+        "action": "select",
+        "options": {
+          "connection": "mydb",
+          "sql": {
+            "type": "select",
+            "columns": [],
+            "params": [
+              {
+                "operator": "not_equal",
+                "type": "expression",
+                "name": ":P1",
+                "value": "{{identity}}",
+                "test": ""
+              },
+              {
+                "operator": "equal",
+                "type": "expression",
+                "name": ":P2",
+                "value": "{{usuario_atual.tutorId}}",
+                "test": ""
+              },
+              {
+                "operator": "equal",
+                "type": "expression",
+                "name": ":P3",
+                "value": "{{usuario_atual.protutId}}",
+                "test": ""
+              },
+              {
+                "operator": "equal",
+                "type": "expression",
+                "name": ":P4",
+                "value": "{{usuario_atual.userID}}",
+                "test": ""
+              },
+              {
+                "operator": "equal",
+                "type": "expression",
+                "name": ":P5",
+                "value": "{{usuario_atual.userID}}",
+                "test": ""
+              },
+              {
+                "operator": "equal",
+                "type": "expression",
+                "name": ":P6",
+                "value": "{{getProfDoAlunoDoTutor.protutId}}",
+                "test": ""
+              },
+              {
+                "operator": "equal",
+                "type": "expression",
+                "name": ":P7",
+                "value": "{{getTutorDoAlunoDoProf.tutorId}}",
+                "test": ""
+              }
+            ],
+            "table": {
+              "name": "users"
+            },
+            "primary": "userID",
+            "joins": [],
+            "wheres": {
+              "condition": "AND",
+              "rules": [
+                {
+                  "id": "users.userID",
+                  "field": "users.userID",
+                  "type": "double",
+                  "operator": "not_equal",
+                  "value": "{{identity}}",
+                  "data": {
+                    "table": "users",
+                    "column": "userID",
+                    "type": "number",
+                    "columnObj": {
+                      "type": "increments",
+                      "primary": true,
+                      "unique": false,
+                      "nullable": false,
+                      "name": "userID"
+                    }
+                  },
+                  "operation": "<>"
+                },
+                {
+                  "condition": "OR",
+                  "rules": [
+                    {
+                      "id": "users.cargo",
+                      "field": "users.cargo",
+                      "type": "string",
+                      "operator": "equal",
+                      "value": "coord",
+                      "data": {
+                        "table": "users",
+                        "column": "cargo",
+                        "type": "text",
+                        "columnObj": {
+                          "type": "string",
+                          "maxLength": 255,
+                          "primary": false,
+                          "unique": false,
+                          "nullable": true,
+                          "name": "cargo"
+                        }
+                      },
+                      "operation": "="
+                    },
+                    {
+                      "id": "users.userID",
+                      "field": "users.userID",
+                      "type": "double",
+                      "operator": "equal",
+                      "value": "{{usuario_atual.tutorId}}",
+                      "data": {
+                        "table": "users",
+                        "column": "userID",
+                        "type": "number",
+                        "columnObj": {
+                          "type": "increments",
+                          "primary": true,
+                          "unique": false,
+                          "nullable": false,
+                          "name": "userID"
+                        }
+                      },
+                      "operation": "="
+                    },
+                    {
+                      "id": "users.userID",
+                      "field": "users.userID",
+                      "type": "double",
+                      "operator": "equal",
+                      "value": "{{usuario_atual.protutId}}",
+                      "data": {
+                        "table": "users",
+                        "column": "userID",
+                        "type": "number",
+                        "columnObj": {
+                          "type": "increments",
+                          "primary": true,
+                          "unique": false,
+                          "nullable": false,
+                          "name": "userID"
+                        }
+                      },
+                      "operation": "="
+                    },
+                    {
+                      "condition": "AND",
+                      "rules": [
+                        {
+                          "id": "users.userID",
+                          "field": "users.userID",
+                          "type": "double",
+                          "operator": "is_not_null",
+                          "value": null,
+                          "data": {
+                            "table": "users",
+                            "column": "userID",
+                            "type": "number",
+                            "columnObj": {
+                              "type": "increments",
+                              "primary": true,
+                              "unique": false,
+                              "nullable": false,
+                              "name": "userID"
+                            }
+                          },
+                          "operation": "IS NOT NULL"
+                        }
+                      ],
+                      "conditional": "{{usuario_atual.cargo == 'coord'}}"
+                    },
+                    {
+                      "id": "users.protutId",
+                      "field": "users.protutId",
+                      "type": "double",
+                      "operator": "equal",
+                      "value": "{{usuario_atual.userID}}",
+                      "data": {
+                        "table": "users",
+                        "column": "protutId",
+                        "type": "number",
+                        "columnObj": {
+                          "type": "reference",
+                          "primary": false,
+                          "unique": false,
+                          "nullable": true,
+                          "references": "userID",
+                          "inTable": "users",
+                          "referenceType": "integer",
+                          "onUpdate": "CASCADE",
+                          "onDelete": "CASCADE",
+                          "name": "protutId"
+                        }
+                      },
+                      "operation": "="
+                    },
+                    {
+                      "id": "users.tutorId",
+                      "field": "users.tutorId",
+                      "type": "double",
+                      "operator": "equal",
+                      "value": "{{usuario_atual.userID}}",
+                      "data": {
+                        "table": "users",
+                        "column": "tutorId",
+                        "type": "number",
+                        "columnObj": {
+                          "type": "reference",
+                          "primary": false,
+                          "unique": false,
+                          "nullable": true,
+                          "references": "userID",
+                          "inTable": "users",
+                          "referenceType": "integer",
+                          "onUpdate": "CASCADE",
+                          "onDelete": "CASCADE",
+                          "name": "tutorId"
+                        }
+                      },
+                      "operation": "="
+                    },
+                    {
+                      "id": "users.userID",
+                      "field": "users.userID",
+                      "type": "double",
+                      "operator": "equal",
+                      "value": "{{getProfDoAlunoDoTutor.protutId}}",
+                      "data": {
+                        "table": "users",
+                        "column": "userID",
+                        "type": "number",
+                        "columnObj": {
+                          "type": "increments",
+                          "primary": true,
+                          "unique": false,
+                          "nullable": false,
+                          "name": "userID"
+                        }
+                      },
+                      "operation": "="
+                    },
+                    {
+                      "id": "users.userID",
+                      "field": "users.userID",
+                      "type": "double",
+                      "operator": "equal",
+                      "value": "{{getTutorDoAlunoDoProf.tutorId}}",
+                      "data": {
+                        "table": "users",
+                        "column": "userID",
+                        "type": "number",
+                        "columnObj": {
+                          "type": "increments",
+                          "primary": true,
+                          "unique": false,
+                          "nullable": false,
+                          "name": "userID"
+                        }
+                      },
+                      "operation": "="
+                    }
+                  ],
+                  "conditional": null
+                }
+              ],
+              "conditional": null,
+              "valid": true
+            },
+            "query": "select * from `users` where `users`.`userID` <> ? and (`users`.`cargo` = ? or `users`.`userID` = ? or `users`.`userID` = ? or (`users`.`userID` is not null) or `users`.`protutId` = ? or `users`.`tutorId` = ? or `users`.`userID` = ? or `users`.`userID` = ?) order by `firstname` ASC",
+            "orders": [
+              {
+                "table": "users",
+                "column": "firstname",
+                "direction": "ASC",
+                "recid": 1
+              }
+            ]
+          }
+        },
+        "output": true,
+        "meta": [
+          {
+            "type": "number",
+            "name": "userID"
+          },
+          {
+            "type": "text",
+            "name": "firstname"
+          },
+          {
+            "type": "text",
+            "name": "lastname"
+          },
+          {
+            "type": "text",
+            "name": "email"
+          },
+          {
+            "type": "text",
+            "name": "password"
+          },
+          {
+            "type": "text",
+            "name": "cargo"
+          },
+          {
+            "type": "number",
+            "name": "tutorId"
+          },
+          {
+            "type": "number",
+            "name": "protutId"
+          }
+        ],
+        "outputType": "array"
+      }
+    ]
+  }
+}

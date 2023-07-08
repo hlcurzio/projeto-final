@@ -17,15 +17,7 @@
         "sql": {
           "type": "select",
           "columns": [],
-          "params": [
-            {
-              "operator": "equal",
-              "type": "expression",
-              "name": ":P1",
-              "value": "{{$_GET.usuarioid}}",
-              "test": ""
-            }
-          ],
+          "params": [],
           "table": {
             "name": "users"
           },
@@ -33,33 +25,11 @@
           "joins": [],
           "wheres": {
             "condition": "AND",
-            "rules": [
-              {
-                "id": "users.userID",
-                "field": "users.userID",
-                "type": "double",
-                "operator": "equal",
-                "value": "{{$_GET.usuarioid}}",
-                "data": {
-                  "table": "users",
-                  "column": "userID",
-                  "type": "number",
-                  "columnObj": {
-                    "type": "increments",
-                    "primary": true,
-                    "unique": false,
-                    "nullable": false,
-                    "name": "userID"
-                  }
-                },
-                "operation": "=",
-                "table": "users"
-              }
-            ],
+            "rules": [],
             "conditional": null,
             "valid": true
           },
-          "query": "select * from `users` where `users`.`userID` = ?"
+          "query": "select * from `users`"
         }
       },
       "output": true,
@@ -88,6 +58,18 @@
           "type": "boolean",
           "sub": [],
           "name": "admin"
+        },
+        {
+          "type": "text",
+          "name": "cargo"
+        },
+        {
+          "type": "number",
+          "name": "tutorId"
+        },
+        {
+          "type": "number",
+          "name": "protutId"
         }
       ],
       "outputType": "object"

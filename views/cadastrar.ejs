@@ -2,7 +2,7 @@
 <dmx-query-manager id="queryCadastrar"></dmx-query-manager>
 <dmx-notifications id="notifies1"></dmx-notifications>
 <div class="container mt-5" style="max-width: 500px;">
-    <form method="post" dmx-generator="bootstrap5" dmx-form-type="vertical" is="dmx-serverconnect-form" id="frmCadastrar" action="/api/auth/user_registration" dmx-on:success="mainNotifications.success('Cadastro realizado.');mainBrowser.goto('/',true);scUserLoggedin.load({})">
+    <form method="post" dmx-generator="bootstrap5" dmx-form-type="vertical" is="dmx-serverconnect-form" id="frmCadastrar" action="/api/auth/user_registration" dmx-on:success="mainNotifications.success('Cadastro realizado.');mainBrowser.goto('/',true);scUserLoggedin.load({})" dmx-on:invalid="mainNotifications.danger(lastError.response)">
         <input id="inp_cadastrar_code" name="code" type="hidden" readonly="true" required="" data-msg-required="Obrigatório." dmx-bind:value="queryCadastrar.data.code">
         <h1 class="fw-light lead">Concluir cadastro</h1>
         <div class="form-group mb-3">
@@ -36,7 +36,7 @@
             <div class="col">
                 <div class="form-group mb-3">
                     <label for="inp_cadastrar_confirmar_senha">Confirmar Senha</label>
-                    <input type="password" class="form-control" id="inp_cadastrar_confirmar_senha" name="password2" aria-describedby="inp_confirmar_senha_help" dmxorgdomid="d28" required="" data-msg-required="Obrigatório." data-rule-equalto="cadastrar_senha" data-msg-equalto="As senhas não correspondem.">
+                    <input type="password" class="form-control" id="inp_cadastrar_confirmar_senha" name="password2" aria-describedby="inp_confirmar_senha_help" dmxorgdomid="d28" required="" data-msg-required="Obrigatório." data-rule-equalto="password" data-msg-equalto="As senhas não correspondem.">
                 </div>
             </div>
         </div>

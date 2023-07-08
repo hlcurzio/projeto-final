@@ -23,6 +23,76 @@
             "value": "1"
           }
         ]
+      },
+      "aluno": {
+        "table": "users",
+        "identity": "userID",
+        "conditions": [
+          {
+            "column": "cargo",
+            "operator": "=",
+            "value": "aluno"
+          }
+        ]
+      },
+      "tutor": {
+        "table": "users",
+        "identity": "userID",
+        "conditions": [
+          {
+            "column": "cargo",
+            "operator": "=",
+            "value": "tutor"
+          }
+        ]
+      },
+      "prof": {
+        "table": "users",
+        "identity": "userID",
+        "conditions": [
+          {
+            "column": "cargo",
+            "operator": "=",
+            "value": "prof"
+          }
+        ]
+      },
+      "protut": {
+        "table": "users",
+        "identity": "userID",
+        "conditions": [
+          {
+            "column": "cargo",
+            "operator": "=",
+            "value": "proftutor"
+          }
+        ]
+      },
+      "coord": {
+        "table": "users",
+        "identity": "userID",
+        "conditions": [
+          {
+            "column": "cargo",
+            "operator": "=",
+            "value": "coord"
+          }
+        ]
+      },
+      "updateOrientacoesGerais": {
+        "table": "users",
+        "identity": "userID",
+        "conditions": [
+          {
+            "column": "cargo",
+            "operator": "in",
+            "value": [
+              "prof",
+              "protut",
+              "coord"
+            ]
+          }
+        ]
       }
     },
     "passwordVerify": true

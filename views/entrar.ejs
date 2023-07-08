@@ -52,7 +52,7 @@
 
         </div>
         <div class="tab-pane pt-3" id="tabPaneRedefinirSenha" role="tabpanel" aria-labelledby="navLinkRedefinirSenha">
-            <form method="post" dmx-generator="bootstrap5" dmx-form-type="vertical" is="dmx-serverconnect-form" id="frm_redefinir_senha" action="/api/auth/password_request" dmx-on:success="notifies1.success('E-mail enviado.')">
+            <form method="post" dmx-generator="bootstrap5" dmx-form-type="vertical" is="dmx-serverconnect-form" id="frm_redefinir_senha" action="/api/auth/password_request" dmx-on:success="mainNotifications.info('E-mail enviado!')">
                 <div class="form-group mb-3">
                     <label for="inp_entrar_email1">E-mail</label>
                     <input type="email" class="form-control" id="inp_entrar_email1" name="email" aria-describedby="inp_email_help" dmxorgdomid="d20" data-rule-email="" data-msg-email="E-mail inválido." required="" data-msg-required="Obrigatório.">

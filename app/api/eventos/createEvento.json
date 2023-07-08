@@ -1,0 +1,154 @@
+{
+  "meta": {
+    "$_POST": [
+      {
+        "type": "text",
+        "name": "nome"
+      },
+      {
+        "type": "date",
+        "name": "inicio"
+      },
+      {
+        "type": "date",
+        "name": "fim"
+      },
+      {
+        "type": "text",
+        "name": "descricao"
+      },
+      {
+        "type": "number",
+        "name": "criadoPor"
+      },
+      {
+        "type": "number",
+        "name": "atribuidoA"
+      },
+      {
+        "type": "number",
+        "name": "direcionadoA"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "insert",
+      "module": "dbupdater",
+      "action": "insert",
+      "options": {
+        "connection": "mydb",
+        "sql": {
+          "type": "insert",
+          "values": [
+            {
+              "table": "eventos",
+              "column": "nome",
+              "type": "text",
+              "value": "{{$_POST.nome}}"
+            },
+            {
+              "table": "eventos",
+              "column": "inicio",
+              "type": "datetime",
+              "value": "{{$_POST.inicio}}"
+            },
+            {
+              "table": "eventos",
+              "column": "fim",
+              "type": "datetime",
+              "value": "{{$_POST.fim}}"
+            },
+            {
+              "table": "eventos",
+              "column": "dia_inteiro",
+              "type": "boolean",
+              "value": "1"
+            },
+            {
+              "table": "eventos",
+              "column": "descricao",
+              "type": "text",
+              "value": "{{$_POST.descricao}}"
+            },
+            {
+              "table": "eventos",
+              "column": "criadoPor",
+              "type": "number",
+              "value": "{{$_POST.criadoPor}}"
+            },
+            {
+              "table": "eventos",
+              "column": "atribuidoA",
+              "type": "number",
+              "value": "{{$_POST.atribuidoA}}"
+            },
+            {
+              "table": "eventos",
+              "column": "direcionadoA",
+              "type": "number",
+              "value": "{{$_POST.direcionadoA}}"
+            }
+          ],
+          "table": "eventos",
+          "returning": "eventoId",
+          "query": "insert into `eventos` (`atribuidoA`, `criadoPor`, `descricao`, `dia_inteiro`, `direcionadoA`, `fim`, `inicio`, `nome`) values (?, ?, ?, ?, ?, ?, ?, ?) returning `eventoId`",
+          "params": [
+            {
+              "name": ":P1",
+              "type": "expression",
+              "value": "{{$_POST.nome}}",
+              "test": ""
+            },
+            {
+              "name": ":P2",
+              "type": "expression",
+              "value": "{{$_POST.inicio}}",
+              "test": ""
+            },
+            {
+              "name": ":P3",
+              "type": "expression",
+              "value": "{{$_POST.fim}}",
+              "test": ""
+            },
+            {
+              "name": ":P4",
+              "type": "expression",
+              "value": "{{$_POST.descricao}}",
+              "test": ""
+            },
+            {
+              "name": ":P5",
+              "type": "expression",
+              "value": "{{$_POST.criadoPor}}",
+              "test": ""
+            },
+            {
+              "name": ":P6",
+              "type": "expression",
+              "value": "{{$_POST.atribuidoA}}",
+              "test": ""
+            },
+            {
+              "name": ":P7",
+              "type": "expression",
+              "value": "{{$_POST.direcionadoA}}",
+              "test": ""
+            }
+          ]
+        }
+      },
+      "meta": [
+        {
+          "name": "identity",
+          "type": "text"
+        },
+        {
+          "name": "affected",
+          "type": "number"
+        }
+      ]
+    }
+  }
+}

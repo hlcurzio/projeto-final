@@ -1,0 +1,123 @@
+{
+  "name": "query",
+  "module": "dbconnector",
+  "action": "single",
+  "options": {
+    "connection": "mydb",
+    "sql": {
+      "type": "select",
+      "columns": [
+        {
+          "table": "tutor",
+          "column": "*"
+        }
+      ],
+      "params": [
+        {
+          "operator": "equal",
+          "type": "expression",
+          "name": ":P1",
+          "value": "{{identity}}",
+          "test": ""
+        }
+      ],
+      "table": {
+        "name": "users"
+      },
+      "primary": "userID",
+      "joins": [
+        {
+          "table": "users",
+          "column": "*",
+          "alias": "tutor",
+          "type": "LEFT",
+          "clauses": {
+            "condition": "AND",
+            "rules": [
+              {
+                "table": "tutor",
+                "column": "userID",
+                "operator": "equal",
+                "operation": "=",
+                "value": {
+                  "table": "users",
+                  "column": "tutorId"
+                }
+              }
+            ]
+          },
+          "primary": "userID"
+        }
+      ],
+      "wheres": {
+        "condition": "AND",
+        "rules": [
+          {
+            "id": "users.userID",
+            "field": "users.userID",
+            "type": "double",
+            "operator": "equal",
+            "value": "{{identity}}",
+            "data": {
+              "table": "users",
+              "column": "userID",
+              "type": "number",
+              "columnObj": {
+                "type": "increments",
+                "primary": true,
+                "unique": false,
+                "nullable": false,
+                "name": "userID"
+              }
+            },
+            "operation": "="
+          }
+        ],
+        "conditional": null,
+        "valid": true
+      },
+      "query": "select `tutor`.* from `users` left join `users` as `tutor` on `tutor`.`userID` = `users`.`tutorId` where `users`.`userID` = ?"
+    }
+  },
+  "output": true,
+  "meta": [
+    {
+      "type": "number",
+      "name": "userID"
+    },
+    {
+      "type": "text",
+      "name": "firstname"
+    },
+    {
+      "type": "text",
+      "name": "lastname"
+    },
+    {
+      "type": "text",
+      "name": "email"
+    },
+    {
+      "type": "text",
+      "name": "password"
+    },
+    {
+      "type": "boolean",
+      "sub": [],
+      "name": "admin"
+    },
+    {
+      "type": "text",
+      "name": "cargo"
+    },
+    {
+      "type": "number",
+      "name": "tutorId"
+    },
+    {
+      "type": "number",
+      "name": "protutId"
+    }
+  ],
+  "outputType": "object"
+}

@@ -156,3 +156,50 @@ p {
         -ms-flex-align: center;
             align-items: center;
 }
+
+.style23 {}
+
+.style24 {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+}
+
+.style25 {}
+
+@media (min-width: 1400px) {
+
+.style25 {
+        -webkit-box-align: center;
+            -ms-flex-align: center;
+                align-items: center;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+    }
+
+.style28 {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: center;
+            -ms-flex-pack: center;
+                justify-content: center;
+    }
+}
+
+.style26 {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.style27 {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+}

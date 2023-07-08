@@ -1,0 +1,99 @@
+{
+  "name": "query",
+  "module": "dbconnector",
+  "action": "single",
+  "options": {
+    "connection": "db",
+    "sql": {
+      "type": "select",
+      "columns": [],
+      "params": [
+        {
+          "operator": "equal",
+          "type": "expression",
+          "name": ":P1",
+          "value": "{{identity}}",
+          "test": ""
+        }
+      ],
+      "table": {
+        "name": "users"
+      },
+      "primary": "userID",
+      "joins": [],
+      "wheres": {
+        "condition": "AND",
+        "rules": [
+          {
+            "id": "users.protutId",
+            "field": "users.protutId",
+            "type": "double",
+            "operator": "equal",
+            "value": "{{identity}}",
+            "data": {
+              "table": "users",
+              "column": "protutId",
+              "type": "number",
+              "columnObj": {
+                "type": "reference",
+                "primary": false,
+                "unique": false,
+                "nullable": true,
+                "references": "userID",
+                "inTable": "users",
+                "referenceType": "integer",
+                "onUpdate": "CASCADE",
+                "onDelete": "CASCADE",
+                "name": "protutId"
+              }
+            },
+            "operation": "="
+          }
+        ],
+        "conditional": null,
+        "valid": true
+      },
+      "query": "select * from `users` where `users`.`protutId` = ?"
+    }
+  },
+  "output": true,
+  "meta": [
+    {
+      "type": "number",
+      "name": "userID"
+    },
+    {
+      "type": "text",
+      "name": "firstname"
+    },
+    {
+      "type": "text",
+      "name": "lastname"
+    },
+    {
+      "type": "text",
+      "name": "email"
+    },
+    {
+      "type": "text",
+      "name": "password"
+    },
+    {
+      "type": "boolean",
+      "name": "admin"
+    },
+    {
+      "type": "text",
+      "name": "cargo"
+    },
+    {
+      "type": "number",
+      "name": "tutorId"
+    },
+    {
+      "type": "number",
+      "name": "protutId"
+    }
+  ],
+  "outputType": "object"
+}

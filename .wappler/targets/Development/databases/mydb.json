@@ -6,135 +6,7 @@
   "direct": true,
   "schema": {
     "tables": {
-      "users": {
-        "columns": {
-          "userID": {
-            "db": {
-              "type": "increments",
-              "primary": true,
-              "unique": false,
-              "nullable": false
-            }
-          },
-          "firstname": {
-            "db": {
-              "type": "string",
-              "maxLength": 255,
-              "primary": false,
-              "unique": false,
-              "nullable": true
-            }
-          },
-          "lastname": {
-            "db": {
-              "type": "string",
-              "maxLength": 255,
-              "primary": false,
-              "unique": false,
-              "nullable": true
-            }
-          },
-          "email": {
-            "db": {
-              "type": "string",
-              "maxLength": 255,
-              "primary": false,
-              "unique": false,
-              "nullable": true
-            }
-          },
-          "password": {
-            "db": {
-              "type": "string",
-              "maxLength": 255,
-              "primary": false,
-              "unique": false,
-              "nullable": true
-            }
-          },
-          "admin": {
-            "ui": {
-              "inputValues": {}
-            },
-            "meta": [],
-            "db": {
-              "type": "boolean",
-              "default": "0",
-              "primary": false,
-              "unique": false,
-              "nullable": true
-            }
-          }
-        },
-        "db": {},
-        "refs": {
-          "mensagens": "destinatarioID",
-          "orientacoesGerais": "modificadaPor"
-        }
-      },
       "catDeFerramentas": {
-        "columns": {
-          "id": {
-            "db": {
-              "type": "increments",
-              "primary": true,
-              "unique": false,
-              "nullable": false
-            }
-          },
-          "nome": {
-            "db": {
-              "type": "string",
-              "maxLength": 255,
-              "primary": false,
-              "unique": false,
-              "nullable": true
-            }
-          }
-        },
-        "db": {}
-      },
-      "locais": {
-        "columns": {
-          "id": {
-            "db": {
-              "type": "increments",
-              "primary": true,
-              "unique": false,
-              "nullable": false
-            }
-          },
-          "nome": {
-            "db": {
-              "type": "string",
-              "maxLength": 255,
-              "primary": false,
-              "unique": false,
-              "nullable": true
-            }
-          },
-          "latitude": {
-            "db": {
-              "type": "string",
-              "maxLength": 255,
-              "primary": false,
-              "unique": false,
-              "nullable": true
-            }
-          },
-          "longitude": {
-            "db": {
-              "type": "string",
-              "maxLength": 255,
-              "primary": false,
-              "unique": false,
-              "nullable": true
-            }
-          }
-        },
-        "db": {}
-      },
-      "tiposDeLocais": {
         "columns": {
           "id": {
             "db": {
@@ -254,6 +126,202 @@
           }
         },
         "db": {}
+      },
+      "eventos": {
+        "columns": {
+          "eventoId": {
+            "db": {
+              "type": "increments",
+              "primary": true,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "nome": {
+            "db": {
+              "type": "string",
+              "maxLength": 255,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "inicio": {
+            "db": {
+              "type": "datetime",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "fim": {
+            "db": {
+              "type": "datetime",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "dia_inteiro": {
+            "db": {
+              "type": "boolean",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "descricao": {
+            "db": {
+              "type": "string",
+              "maxLength": 255,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "criadoPor": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "userID",
+              "inTable": "users",
+              "referenceType": "integer",
+              "onUpdate": "CASCADE",
+              "onDelete": "CASCADE"
+            }
+          },
+          "atribuidoA": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "userID",
+              "inTable": "users",
+              "referenceType": "integer",
+              "onUpdate": "CASCADE",
+              "onDelete": "CASCADE"
+            }
+          },
+          "direcionadoA": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "userID",
+              "inTable": "users",
+              "referenceType": "integer",
+              "onUpdate": "CASCADE",
+              "onDelete": "CASCADE"
+            }
+          },
+          "modificadoPor": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "userID",
+              "inTable": "users",
+              "referenceType": "integer",
+              "onUpdate": "CASCADE",
+              "onDelete": "CASCADE"
+            }
+          }
+        },
+        "db": {}
+      },
+      "users": {
+        "columns": {
+          "userID": {
+            "db": {
+              "type": "increments",
+              "primary": true,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "firstname": {
+            "db": {
+              "type": "string",
+              "maxLength": 255,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "lastname": {
+            "db": {
+              "type": "string",
+              "maxLength": 255,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "email": {
+            "db": {
+              "type": "string",
+              "maxLength": 255,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "password": {
+            "db": {
+              "type": "string",
+              "maxLength": 255,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "cargo": {
+            "db": {
+              "type": "string",
+              "maxLength": 255,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "tutorId": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "userID",
+              "inTable": "users",
+              "referenceType": "integer",
+              "onUpdate": "CASCADE",
+              "onDelete": "CASCADE"
+            }
+          },
+          "protutId": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "userID",
+              "inTable": "users",
+              "referenceType": "integer",
+              "onUpdate": "CASCADE",
+              "onDelete": "CASCADE"
+            }
+          }
+        },
+        "db": {},
+        "refs": {
+          "mensagens": "destinatarioID",
+          "orientacoesGerais": "modificadaPor",
+          "eventos": "modificadoPor"
+        }
       }
     },
     "views": {}

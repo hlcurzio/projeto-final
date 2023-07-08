@@ -1,0 +1,176 @@
+{
+  "meta": {
+    "$_POST": [
+      {
+        "type": "text",
+        "name": "nome"
+      },
+      {
+        "type": "datetime",
+        "name": "inicio"
+      },
+      {
+        "type": "datetime",
+        "name": "fim"
+      },
+      {
+        "type": "text",
+        "name": "descricao"
+      },
+      {
+        "type": "number",
+        "name": "eventoId"
+      },
+      {
+        "type": "number",
+        "name": "modificadoPor"
+      },
+      {
+        "type": "number",
+        "name": "atribuidoA"
+      },
+      {
+        "type": "number",
+        "name": "direcionadoA"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "updateEvento",
+      "module": "dbupdater",
+      "action": "update",
+      "options": {
+        "connection": "mydb",
+        "sql": {
+          "type": "update",
+          "values": [
+            {
+              "table": "eventos",
+              "column": "nome",
+              "type": "text",
+              "value": "{{$_POST.nome}}"
+            },
+            {
+              "table": "eventos",
+              "column": "inicio",
+              "type": "datetime",
+              "value": "{{$_POST.inicio}}"
+            },
+            {
+              "table": "eventos",
+              "column": "fim",
+              "type": "datetime",
+              "value": "{{$_POST.fim}}"
+            },
+            {
+              "table": "eventos",
+              "column": "dia_inteiro",
+              "type": "boolean",
+              "value": "1"
+            },
+            {
+              "table": "eventos",
+              "column": "descricao",
+              "type": "text",
+              "value": "{{$_POST.descricao}}"
+            },
+            {
+              "table": "eventos",
+              "column": "modificadoPor",
+              "type": "number",
+              "value": "{{$_POST.modificadoPor}}"
+            },
+            {
+              "table": "eventos",
+              "column": "atribuidoA",
+              "type": "number",
+              "value": "{{$_POST.atribuidoA}}"
+            },
+            {
+              "table": "eventos",
+              "column": "direcionadoA",
+              "type": "number",
+              "value": "{{$_POST.direcionadoA}}"
+            }
+          ],
+          "table": "eventos",
+          "wheres": {
+            "condition": "AND",
+            "rules": [
+              {
+                "id": "eventoId",
+                "type": "double",
+                "operator": "equal",
+                "value": "{{$_POST.eventoId}}",
+                "data": {
+                  "column": "eventoId"
+                },
+                "operation": "="
+              }
+            ]
+          },
+          "returning": "eventoId",
+          "query": "update `eventos` set `nome` = ?, `inicio` = ?, `fim` = ?, `dia_inteiro` = ?, `descricao` = ?, `modificadoPor` = ?, `atribuidoA` = ?, `direcionadoA` = ? where `eventoId` = ? returning `eventoId`",
+          "params": [
+            {
+              "name": ":P1",
+              "type": "expression",
+              "value": "{{$_POST.nome}}",
+              "test": ""
+            },
+            {
+              "name": ":P2",
+              "type": "expression",
+              "value": "{{$_POST.inicio}}",
+              "test": ""
+            },
+            {
+              "name": ":P3",
+              "type": "expression",
+              "value": "{{$_POST.fim}}",
+              "test": ""
+            },
+            {
+              "name": ":P4",
+              "type": "expression",
+              "value": "{{$_POST.descricao}}",
+              "test": ""
+            },
+            {
+              "name": ":P5",
+              "type": "expression",
+              "value": "{{$_POST.modificadoPor}}",
+              "test": ""
+            },
+            {
+              "name": ":P6",
+              "type": "expression",
+              "value": "{{$_POST.atribuidoA}}",
+              "test": ""
+            },
+            {
+              "name": ":P7",
+              "type": "expression",
+              "value": "{{$_POST.direcionadoA}}",
+              "test": ""
+            },
+            {
+              "operator": "equal",
+              "type": "expression",
+              "name": ":P8",
+              "value": "{{$_POST.eventoId}}",
+              "test": ""
+            }
+          ]
+        }
+      },
+      "meta": [
+        {
+          "name": "affected",
+          "type": "number"
+        }
+      ]
+    }
+  }
+}

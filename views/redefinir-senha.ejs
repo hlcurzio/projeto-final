@@ -1,7 +1,7 @@
 <!-- Wappler include head-page="layouts/main" fontawesome_5="cdn" is="dmx-app" id="redefinirsenha" appconnect="local" components="{dmxBootstrap5Modal:{},dmxBootstrap5Navigation:{},dmxValidator:{},dmxNotifications:{},dmxTyped:{},dmxStateManagement:{}}" style="" class="style9" bootstrap5="local" -->
 <dmx-query-manager id="queryRedefinirSenha"></dmx-query-manager>
 <div class="container mt-5" style="max-width: 500px;">
-    <form method="post" dmx-generator="bootstrap5" dmx-form-type="vertical" is="dmx-serverconnect-form" id="frmRedefinirSenha" action="/api/auth/password_update" dmx-on:success="mainNotifications.success('Sucesso!')">
+    <form method="post" dmx-generator="bootstrap5" dmx-form-type="vertical" is="dmx-serverconnect-form" id="frmRedefinirSenha" action="/api/auth/password_update" dmx-on:success="mainNotifications.success('Sucesso!');mainBrowser.goto('/entrar',true,'Entrar')" dmx-on:invalid="mainNotifications.danger(lastError.response)">
 
 
         <h1>Redefinir senha</h1>

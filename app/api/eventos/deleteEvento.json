@@ -1,0 +1,59 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "id"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "delete",
+      "module": "dbupdater",
+      "action": "delete",
+      "options": {
+        "connection": "mydb",
+        "sql": {
+          "type": "delete",
+          "table": "eventos",
+          "wheres": {
+            "condition": "AND",
+            "rules": [
+              {
+                "id": "eventoId",
+                "field": "eventoId",
+                "type": "double",
+                "operator": "equal",
+                "value": "{{$_GET.id}}",
+                "data": {
+                  "column": "eventoId"
+                },
+                "operation": "="
+              }
+            ],
+            "conditional": null,
+            "valid": true
+          },
+          "returning": "eventoId",
+          "query": "delete from `eventos` where `eventoId` = ?",
+          "params": [
+            {
+              "operator": "equal",
+              "type": "expression",
+              "name": ":P1",
+              "value": "{{$_GET.id}}",
+              "test": ""
+            }
+          ]
+        }
+      },
+      "meta": [
+        {
+          "name": "affected",
+          "type": "number"
+        }
+      ]
+    }
+  }
+}

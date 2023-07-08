@@ -223,6 +223,17 @@
                 "meta": []
               }
             ]
+          },
+          "else": {
+            "steps": {
+              "name": "Erro",
+              "module": "core",
+              "action": "response",
+              "options": {
+                "data": "Token inválido",
+                "status": 400
+              }
+            }
           }
         },
         "outputType": "boolean"

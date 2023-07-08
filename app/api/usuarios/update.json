@@ -52,11 +52,16 @@
         "name": "userID"
       },
       {
-        "type": "boolean",
-        "ui": {
-          "inputValues": {}
-        },
-        "name": "admin"
+        "type": "text",
+        "name": "cargo"
+      },
+      {
+        "type": "number",
+        "name": "tutorId"
+      },
+      {
+        "type": "number",
+        "name": "protutId"
       }
     ]
   },
@@ -71,7 +76,7 @@
           "loginUrl": "/entrar",
           "forbiddenUrl": "/",
           "permissions": [
-            "admin"
+            "coord"
           ]
         }
       },
@@ -114,9 +119,21 @@
               },
               {
                 "table": "users",
-                "column": "admin",
-                "type": "boolean",
-                "value": "{{$_POST.admin.default(0)}}"
+                "column": "cargo",
+                "type": "text",
+                "value": "{{$_POST.cargo}}"
+              },
+              {
+                "table": "users",
+                "column": "tutorId",
+                "type": "number",
+                "value": "{{$_POST.tutorId}}"
+              },
+              {
+                "table": "users",
+                "column": "protutId",
+                "type": "number",
+                "value": "{{$_POST.protutId}}"
               }
             ],
             "table": "users",
@@ -136,7 +153,7 @@
               ]
             },
             "returning": "userID",
-            "query": "update `users` set `firstname` = ?, `lastname` = ?, `email` = ?, `admin` = ? where `userID` = ? returning `userID`",
+            "query": "update `users` set `firstname` = ?, `lastname` = ?, `email` = ?, `cargo` = ?, `tutorId` = ?, `protutId` = ? where `userID` = ? returning `userID`",
             "params": [
               {
                 "name": ":P1",
@@ -159,13 +176,25 @@
               {
                 "name": ":P4",
                 "type": "expression",
-                "value": "{{$_POST.admin.default(0)}}",
+                "value": "{{$_POST.cargo}}",
+                "test": ""
+              },
+              {
+                "name": ":P5",
+                "type": "expression",
+                "value": "{{$_POST.tutorId}}",
+                "test": ""
+              },
+              {
+                "name": ":P6",
+                "type": "expression",
+                "value": "{{$_POST.protutId}}",
                 "test": ""
               },
               {
                 "operator": "equal",
                 "type": "expression",
-                "name": ":P5",
+                "name": ":P7",
                 "value": "{{$_POST.userID}}",
                 "test": ""
               }

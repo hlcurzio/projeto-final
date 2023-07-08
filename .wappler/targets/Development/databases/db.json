@@ -1,0 +1,122 @@
+{
+  "direct": true,
+  "type": "sqlite3",
+  "connection": {
+    "filename": "/db/mydb.sqlite3"
+  },
+  "schema": {
+    "tables": {
+      "catDeFerramentas": {
+        "db": {}
+      },
+      "mensagens": {
+        "db": {}
+      },
+      "orientacoesGerais": {
+        "db": {}
+      },
+      "eventos": {
+        "db": {}
+      },
+      "users": {
+        "db": {},
+        "columns": {
+          "userID": {
+            "db": {
+              "type": "increments",
+              "primary": true,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "firstname": {
+            "db": {
+              "type": "string",
+              "maxLength": 255,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "lastname": {
+            "db": {
+              "type": "string",
+              "maxLength": 255,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "email": {
+            "db": {
+              "type": "string",
+              "maxLength": 255,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "password": {
+            "db": {
+              "type": "string",
+              "maxLength": 255,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "admin": {
+            "db": {
+              "type": "boolean",
+              "default": "0",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "cargo": {
+            "db": {
+              "type": "string",
+              "maxLength": 255,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "tutorId": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "userID",
+              "inTable": "users",
+              "referenceType": "integer",
+              "onUpdate": "CASCADE",
+              "onDelete": "CASCADE"
+            }
+          },
+          "protutId": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "userID",
+              "inTable": "users",
+              "referenceType": "integer",
+              "onUpdate": "CASCADE",
+              "onDelete": "CASCADE"
+            }
+          }
+        },
+        "refs": {
+          "mensagens": "destinatarioID",
+          "orientacoesGerais": "modificadaPor",
+          "eventos": "modificadoPor"
+        }
+      }
+    },
+    "views": {}
+  }
+}

@@ -1,4 +1,4 @@
-<!-- Wappler include head-page="layouts/main" is="dmx-app" id="index" appconnect="local" fontawesome_5="cdn" components="{dmxBootbox5:{},dmxTyped:{},dmxBootstrap5Modal:{},dmxSummernote:{}}" jquery_slim_35="cdn" bootstrap4="cdn" -->
+<!-- Wappler include head-page="layouts/main" is="dmx-app" id="index" appconnect="local" fontawesome_5="cdn" components="{dmxBootbox5:{},dmxTyped:{},dmxBootstrap5Modal:{},dmxSummernote:{},dmxFormatter:{}}" jquery_slim_35="cdn" bootstrap4="cdn" -->
 <dmx-serverconnect id="sc_getOrientacoesGerais" url="/api/orientacoesGerais/getOrientacoesGerais"></dmx-serverconnect>
 
 <dmx-serverconnect id="sc_userLoggedin" url="/api/auth/user_loggedin"></dmx-serverconnect>
@@ -6,17 +6,18 @@
 <div class="container" style="">
     <div class="row mb-5">
         <div class="col mb-5">
-            <div class="d-flex justify-content-between mt-5 mb-2 pt-0 pb-0">
+            <div class="d-flex justify-content-between mt-5 mb-3 pt-0 pb-0">
+
                 <h1 class="text-start fw-light lead align-self-center mt-0 mb-0">Orientações gerais</h1>
 
-                <button id="btn_modalOG" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalOG"><i class="fas fa-edit"></i></button>
+                <button id="btn_modalOG" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalOG" dmx-show="(scUserLoggedin.data.query[0].cargo == 'coord')||(scUserLoggedin.data.query[0].cargo == 'prof')||(scUserLoggedin.data.query[0].cargo == 'protut')"><i class="fas fa-edit"></i></button>
             </div>
 
 
 
 
             <p class="fw-lighter" style="text-align: justify;" dmx-html="sc_getOrientacoesGerais.data.query.conteudo"></p>
-            <p class="fw-lighter mt-3 small" style="text-align: justify;">Última modificação feita por {{sc_getOrientacoesGerais.data.query.firstname}} em {{sc_getOrientacoesGerais.data.query.modificadaEm}}</p>
+            <p class="fw-lighter mt-3 small" style="text-align: justify;">Última modificação feita por {{sc_getOrientacoesGerais.data.query.firstname}} em {{sc_getOrientacoesGerais.data.query.modificadaEm.formatDate('dd/MM/yyyy HH:mm:ss')}}</p>
 
 
 

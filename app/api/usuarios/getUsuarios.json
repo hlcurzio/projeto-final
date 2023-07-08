@@ -1,0 +1,192 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ]
+  },
+  "exec": {
+    "steps": [
+      {
+        "name": "",
+        "module": "auth",
+        "action": "restrict",
+        "options": {
+          "provider": "security",
+          "loginUrl": "/entrar",
+          "forbiddenUrl": "/",
+          "permissions": [
+            "coord"
+          ]
+        }
+      },
+      {
+        "name": "queryUsuarios",
+        "module": "dbconnector",
+        "action": "select",
+        "options": {
+          "connection": "mydb",
+          "sql": {
+            "type": "SELECT",
+            "distinct": false,
+            "columns": [
+              {
+                "table": "users",
+                "column": "*",
+                "field": "users.*"
+              },
+              {
+                "table": "tutor",
+                "column": "firstname",
+                "field": "tutor.firstname",
+                "alias": "tutor_firstname"
+              },
+              {
+                "table": "tutor",
+                "column": "lastname",
+                "field": "tutor.lastname",
+                "alias": "tutor_lastname"
+              },
+              {
+                "table": "prof",
+                "column": "firstname",
+                "field": "prof.firstname",
+                "alias": "prof_firstname"
+              },
+              {
+                "table": "prof",
+                "column": "lastname",
+                "field": "prof.lastname",
+                "alias": "prof_lastname"
+              }
+            ],
+            "table": {
+              "name": "users"
+            },
+            "joins": [
+              {
+                "table": "users",
+                "column": "*",
+                "alias": "tutor",
+                "type": "LEFT",
+                "clauses": {
+                  "condition": "AND",
+                  "rules": [
+                    {
+                      "table": "tutor",
+                      "column": "userID",
+                      "field": "tutor.userID",
+                      "operation": "=",
+                      "operator": "equal",
+                      "value": {
+                        "table": "users",
+                        "column": "tutorId",
+                        "field": "users.tutorId"
+                      }
+                    }
+                  ]
+                },
+                "primary": "userID"
+              },
+              {
+                "table": "users",
+                "column": "*",
+                "alias": "prof",
+                "type": "LEFT",
+                "clauses": {
+                  "condition": "AND",
+                  "rules": [
+                    {
+                      "table": "prof",
+                      "column": "userID",
+                      "field": "prof.userID",
+                      "operation": "=",
+                      "operator": "equal",
+                      "value": {
+                        "table": "users",
+                        "column": "protutId",
+                        "field": "users.protutId"
+                      }
+                    }
+                  ]
+                },
+                "primary": "userID"
+              }
+            ],
+            "orders": [
+              {
+                "table": "users",
+                "column": "firstname",
+                "field": "users.firstname",
+                "direction": "ASC",
+                "recid": 1
+              }
+            ],
+            "params": [],
+            "primary": "userID",
+            "query": "select `users`.*, `tutor`.`firstname` as `tutor_firstname`, `tutor`.`lastname` as `tutor_lastname`, `prof`.`firstname` as `prof_firstname`, `prof`.`lastname` as `prof_lastname` from `users` left join `users` as `tutor` on `tutor`.`userID` = `users`.`tutorId` left join `users` as `prof` on `prof`.`userID` = `users`.`protutId` order by `users`.`firstname` ASC"
+          }
+        },
+        "output": true,
+        "meta": [
+          {
+            "type": "number",
+            "name": "userID"
+          },
+          {
+            "type": "text",
+            "name": "firstname"
+          },
+          {
+            "type": "text",
+            "name": "lastname"
+          },
+          {
+            "type": "text",
+            "name": "email"
+          },
+          {
+            "type": "text",
+            "name": "password"
+          },
+          {
+            "type": "text",
+            "name": "cargo"
+          },
+          {
+            "type": "number",
+            "name": "tutorId"
+          },
+          {
+            "type": "number",
+            "name": "protutId"
+          },
+          {
+            "type": "text",
+            "name": "tutor_firstname"
+          },
+          {
+            "type": "text",
+            "name": "tutor_lastname"
+          },
+          {
+            "type": "text",
+            "name": "prof_firstname"
+          },
+          {
+            "type": "text",
+            "name": "prof_lastname"
+          }
+        ],
+        "outputType": "array",
+        "type": "dbconnector_select"
+      }
+    ]
+  }
+}

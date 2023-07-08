@@ -22,7 +22,7 @@
           "loginUrl": "/entrar",
           "forbiddenUrl": "/",
           "permissions": [
-            "admin"
+            "coord"
           ]
         }
       },
@@ -41,7 +41,14 @@
             },
             "primary": "userID",
             "joins": [],
-            "query": "select * from `users`"
+            "query": "select * from `users` order by `firstname` ASC",
+            "orders": [
+              {
+                "table": "users",
+                "column": "firstname",
+                "direction": "ASC"
+              }
+            ]
           }
         },
         "output": true,
@@ -67,9 +74,16 @@
             "name": "password"
           },
           {
-            "type": "boolean",
-            "sub": [],
-            "name": "admin"
+            "type": "text",
+            "name": "cargo"
+          },
+          {
+            "type": "number",
+            "name": "tutorId"
+          },
+          {
+            "type": "number",
+            "name": "protutId"
           }
         ],
         "outputType": "array"

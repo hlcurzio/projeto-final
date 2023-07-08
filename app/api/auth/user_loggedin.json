@@ -22,21 +22,28 @@
           "steps": {
             "name": "query",
             "module": "dbconnector",
-            "action": "single",
+            "action": "select",
             "options": {
               "connection": "mydb",
               "sql": {
                 "type": "SELECT",
-                "columns": [
-                  {
-                    "table": "users",
-                    "column": "*"
-                  }
-                ],
+                "distinct": false,
+                "columns": [],
                 "table": {
                   "name": "users"
                 },
                 "joins": [],
+                "orders": [],
+                "params": [
+                  {
+                    "operator": "equal",
+                    "type": "expression",
+                    "name": ":P1",
+                    "value": "{{identity}}",
+                    "test": "3"
+                  }
+                ],
+                "primary": "userID",
                 "wheres": {
                   "condition": "AND",
                   "rules": [
@@ -49,24 +56,23 @@
                       "data": {
                         "table": "users",
                         "column": "userID",
-                        "type": "number"
+                        "type": "number",
+                        "columnObj": {
+                          "type": "increments",
+                          "primary": true,
+                          "unique": false,
+                          "nullable": false,
+                          "name": "userID"
+                        }
                       },
-                      "operation": "="
+                      "operation": "=",
+                      "table": "users"
                     }
                   ],
                   "conditional": null,
                   "valid": true
                 },
-                "query": "select * from `users` where `users`.`userID` = ?",
-                "params": [
-                  {
-                    "operator": "equal",
-                    "type": "expression",
-                    "name": ":P1",
-                    "value": "{{identity}}"
-                  }
-                ],
-                "primary": "userID"
+                "query": "select * from `users` where `users`.`userID` = ?"
               }
             },
             "output": true,
@@ -95,9 +101,22 @@
                 "type": "boolean",
                 "sub": [],
                 "name": "admin"
+              },
+              {
+                "type": "text",
+                "name": "cargo"
+              },
+              {
+                "type": "number",
+                "name": "tutorId"
+              },
+              {
+                "type": "number",
+                "name": "protutId"
               }
             ],
-            "outputType": "object"
+            "outputType": "array",
+            "type": "dbconnector_select"
           }
         }
       },

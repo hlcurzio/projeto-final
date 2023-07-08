@@ -1,30 +1,49 @@
-<!-- Wappler include head-page="layouts/main" is="dmx-app" id="perfil" appconnect="local" fontawesome_5="cdn" components="{dmxBootbox5:{},dmxTyped:{},dmxBootstrap5Modal:{},dmxSummernote:{},dmxBootstrap5TableGenerator:{}}" jquery_slim_35="cdn" bootstrap5="local" -->
+<!-- Wappler include head-page="layouts/main" is="dmx-app" id="perfil" appconnect="local" fontawesome_5="cdn" components="{dmxBootbox5:{},dmxTyped:{},dmxBootstrap5Modal:{},dmxSummernote:{},dmxBootstrap5TableGenerator:{},dmxFormatter:{}}" jquery_slim_35="cdn" bootstrap5="local" -->
+<dmx-serverconnect id="sc_getAlunoDoTutor" url="/api/usuarios/getAlunoDoTutor"></dmx-serverconnect>
+<dmx-serverconnect id="sc_getAlunoDoProfessor" url="/api/usuarios/getAlunoDoProfessor"></dmx-serverconnect>
+<dmx-serverconnect id="sc_getTutor" url="/api/usuarios/getTutor"></dmx-serverconnect>
+<dmx-serverconnect id="sc_getProfessorTutor" url="/api/usuarios/getProfessorTutor"></dmx-serverconnect>
+<dmx-serverconnect id="sc_userLoggedIn" url="/api/auth/user_loggedin"></dmx-serverconnect>
 
 <meta name="ac:route" content="/perfil">
 <div class="container" style="">
     <div class="row mb-5">
         <div class="col mb-5">
-            <h1 class="text-start fw-light lead align-self-center mt-5 mb-0">Perfil</h1>
-            <table class="table">
-                <tbody dmx-generator="bs5table" dmx-populate="scUserLoggedin.data.query">
-                    <tr>
-                        <th>Nome</th>
-                        <td dmx-text="scUserLoggedin.data.query.firstname" class="text-end"></td>
-                    </tr>
-                    <tr>
-                        <th>Sobrenome</th>
-                        <td dmx-text="scUserLoggedin.data.query.lastname" class="text-end"></td>
-                    </tr>
-                    <tr>
-                        <th>E-mail</th>
-                        <td dmx-text="scUserLoggedin.data.query.email" class="text-end"></td>
-                    </tr>
-                    <tr>
-                        <th>Admin</th>
-                        <td dmx-text="scUserLoggedin.data.query.admin" class="text-end"></td>
-                    </tr>
-                </tbody>
-            </table>
+            <h1 class="text-start fw-light lead align-self-center mt-5 mb-3">Perfil</h1>
+            <div class="table-responsive">
+                <table class="table">
+                    <tbody dmx-generator="bs5table" dmx-populate="sc_userLoggedIn.data.query">
+                        <tr>
+                            <th>Nome</th>
+                            <td dmx-text="sc_userLoggedIn.data.query[0].firstname+' '+sc_userLoggedIn.data.query[0].lastname" class="text-end"></td>
+                        </tr>
+                        <tr>
+                            <th>E-mail</th>
+                            <td dmx-text="sc_userLoggedIn.data.query[0].email" class="text-end"></td>
+                        </tr>
+                        <tr>
+                            <th>Perfil</th>
+                            <td dmx-text="sc_userLoggedIn.data.query[0].cargo.replace('aluno', 'Aluno').replace('tutor', 'Tutor').replace('coord', 'Coordenador').replace('protut', 'Professor-tutor')" class="text-end"></td>
+                        </tr>
+                        <tr dmx-show="sc_userLoggedIn.data.query[0].protutId">
+                            <th>Professor-tutor</th>
+                            <td dmx-text="sc_getProfessorTutor.data.query.firstname+' '+sc_getProfessorTutor.data.query.lastname" class="text-end"></td>
+                        </tr>
+                        <tr dmx-show="sc_userLoggedIn.data.query[0].tutorId">
+                            <th>Tutor</th>
+                            <td dmx-text="sc_getTutor.data.query.firstname+' '+sc_getTutor.data.query.lastname" class="text-end"></td>
+                        </tr>
+                        <tr dmx-show="sc_getAlunoDoTutor.data.query.userID">
+                            <th>Aluno do tutor</th>
+                            <td dmx-text="sc_getAlunoDoTutor.data.query.firstname+' '+sc_getAlunoDoTutor.data.query.lastname" class="text-end"></td>
+                        </tr>
+                        <tr dmx-show="sc_getAlunoDoProfessor.data.query.userID">
+                            <th>Aluno do professor</th>
+                            <td dmx-text="sc_getAlunoDoProfessor.data.query.firstname+' '+sc_getAlunoDoProfessor.data.query.lastname" class="text-end"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
 
 

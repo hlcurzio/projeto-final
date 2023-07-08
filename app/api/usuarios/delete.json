@@ -16,7 +16,7 @@
         "options": {
           "provider": "security",
           "permissions": [
-            "admin"
+            "coord"
           ]
         }
       },

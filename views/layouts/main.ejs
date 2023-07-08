@@ -15,6 +15,7 @@
 
     <script src="dmxAppConnect/dmxAppConnect.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js" integrity="sha256-CutOzxCRucUsn6C6TcEYsauvvYilEniTXldPa6/wu0k=" crossorigin="anonymous"></script>
     <script src="/dmxAppConnect/dmxBootstrap5Navigation/dmxBootstrap5Navigation.js" defer=""></script>
     <script src="/dmxAppConnect/dmxRouting/dmxRouting.js" defer=""></script>
     <script src="/dmxAppConnect/dmxBootstrap5Modal/dmxBootstrap5Modal.js" defer=""></script>
@@ -73,6 +74,19 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/summernote/dist/summernote-lite.min.css" />
 
+    <link rel="stylesheet" href="https://unpkg.com/@fullcalendar/core@4.4.2/main.min.css" />
+    <script src="https://unpkg.com/@fullcalendar/core@4.4.2/main.min.js" defer></script>
+    <script src="https://unpkg.com/@fullcalendar/core@4.4.2/locales-all.min.js" defer></script>
+    <script src="https://unpkg.com/@fullcalendar/interaction@4.4.2/main.min.js" defer></script>
+    <script src="/dmxAppConnect/dmxCalendar/dmxCalendar.js" defer></script>
+    <script src="https://unpkg.com/@fullcalendar/google-calendar@4.4.2/main.min.js" defer></script>
+    <script src="https://unpkg.com/@fullcalendar/daygrid@4.4.2/main.min.js" defer></script>
+    <link rel="stylesheet" href="/dmxAppConnect/dmxDatePicker/daterangepicker.min.css" />
+    <script src="/dmxAppConnect/dmxDatePicker/daterangepicker.min.js" defer></script>
+    <link rel="stylesheet" href="/dmxAppConnect/dmxDatePicker/dmxDatePicker.css" />
+    <script src="/dmxAppConnect/dmxDatePicker/dmxDatePicker.js" defer></script>
+
+    <script src="https://unpkg.com/@fullcalendar/bootstrap@4.4.2/main.min.js" defer></script>
 </head>
 
 <body is="dmx-app" id="main">
@@ -91,39 +105,30 @@
             <div class="row">
                 <div class="col">
                     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                        <a class="navbar-brand" dmx-on:click.prevent="mainBrowser.goto('/',true,'Página inicial')">
+                        <a class="navbar-brand" dmx-on:click.prevent="mainBrowser.goto('/',true,'Página inicial')" href="/">
                             <img src="/assets/unb_logo.svg" width="50" class="me-2">TCC UnB</a>
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar1_collapse" aria-controls="navbar1_collapse" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
                         <div class="collapse navbar-collapse justify-content-end" id="navbar1_collapse">
                             <div class="navbar-nav">
-                                <a class="nav-item nav-link" dmx-on:click.prevent="mainBrowser.goto('/',true,'Página inicial')">Página inicial</a>
-                                <div class="nav-item dropdown" dmx-show="scUserLoggedin.data.identity"><a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdown2" role="button" aria-haspopup="true" aria-expanded="false">Locais</a>
-                                    <div class="dropdown-menu" aria-labelledby="dropdown2">
-                                        <a class="dropdown-item" dmx-on:click.prevent="mainBrowser.goto('/locais',true,'Locais')" href="/locais" internal="true">Todos os locais</a><a class="dropdown-item" href="/categorias-de-ferramentas" internal="true">Tipos</a>
+                                <a class="nav-item nav-link" dmx-on:click.prevent="mainBrowser.goto('/',true,'Página inicial')" href="/">Página inicial</a>
+
+
+                                <a class="nav-item nav-link" dmx-on:click.prevent="mainBrowser.goto('/acompanhamento',true,'Acompanhamento')" href="/acompanhamento" internal="true" dmx-show="scUserLoggedin.data.identity">Acompanhamento</a><a class="nav-item nav-link" dmx-on:click.prevent="mainBrowser.goto('/chat',true,'Chat')" href="/chat" internal="true" dmx-show="scUserLoggedin.data.identity">Chat</a>
+
+
+                                <div class="nav-item dropdown" dmx-show="(scUserLoggedin.data.query[0].cargo == 'coord')"><a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdown_admin" role="button" aria-haspopup="true" aria-expanded="false">Admin</a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdown_admin">
+                                        <a class="dropdown-item" dmx-on:click.prevent="mainBrowser.goto('/admin/usuarios',true,'Admin | Usuários')" href="/admin/usuarios" internal="true">Usuários</a>
 
                                     </div>
                                 </div>
-                                <div class="nav-item dropdown" dmx-show="scUserLoggedin.data.identity"><a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdown3" role="button" aria-haspopup="true" aria-expanded="false">Cuidados</a>
-                                    <div class="dropdown-menu" aria-labelledby="dropdown3">
-                                        <a class="dropdown-item" dmx-on:click.prevent="mainBrowser.goto('/ferramentas',true,'Ferramentas')" href="/cuidados" internal="true">Todas os cuidados</a><a class="dropdown-item" href="/categorias-de-ferramentas" internal="true">Públicos-alvo</a>
-
-                                    </div>
-                                </div>
-
-
-                                <a class="nav-item nav-link" dmx-on:click.prevent="mainBrowser.goto('/chat',true,'Chat')" href="/chat" internal="true">Chat</a>
                                 <a class="nav-item nav-link" dmx-on:click.prevent="mainBrowser.goto('/sobre',true,'Sobre')" href="/sobre" internal="true">Sobre</a>
-                                <div class="nav-item dropdown" dmx-show="scUserLoggedin.data.query.admin"><a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdown1" role="button" aria-haspopup="true" aria-expanded="false">Admin</a>
-                                    <div class="dropdown-menu" aria-labelledby="dropdown3">
-                                        <a class="dropdown-item" dmx-on:click.prevent="mainBrowser.goto('/admin/usuarios',true,'Admin | Usuários')" href="/admin/usuarios" internal="true">Usuários</a><a class="dropdown-item" href="/admin/disciplinas" internal="true" dmx-on:click.prevent="mainBrowser.goto('/admin/disciplinas',true,'Admin | Disciplinas')">Disciplinas</a>
-
-                                    </div>
-                                </div>
-                                <div class="nav-item dropdown" dmx-show="scUserLoggedin.data.identity"><a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdown4" role="button" aria-haspopup="true" aria-expanded="false">{{scUserLoggedin.data.query.firstname}}</a>
-                                    <div class="dropdown-menu" aria-labelledby="dropdown4">
-                                        <a class="dropdown-item" href="/perfil" internal="true" dmx-on:click.prevent="mainBrowser.goto('/perfil',true,'Perfil')">Perfil</a><a class="dropdown-item" dmx-on:click.prevent="modalConfirmacaoLogout.show()" href="/entrar">Sair</a>
+                                <div class="nav-item dropdown" dmx-show="scUserLoggedin.data.identity"><a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdown_usuario" role="button" aria-haspopup="true" aria-expanded="false">{{scUserLoggedin.data.query[0].firstname}}</a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdown_usuario">
+                                        <a class="dropdown-item" href="/perfil" internal="true" dmx-on:click.prevent="mainBrowser.goto('/perfil',true,'Perfil')">Perfil</a>
+                                        <a class="dropdown-item" dmx-on:click.prevent="modalConfirmacaoLogout.show()" href="/entrar">Sair</a>
 
 
                                     </div>
